@@ -1,0 +1,54 @@
+:root {
+  --accent-color: #1c2541;
+  --primary-color: #1e1e1e;
+  --secondary-color: #2a2a2a;
+}
+
+#root {
+  min-height: 100dvh;
+  min-width: 100dvw;
+}
+
+body {
+  background-color: var(--secondary-color);
+  overflow-x: hidden;
+}
+
+.btn-accent {
+  background-color: var(--accent-color);
+  color: #fff;
+  outline: 1px solid #fff;
+}
+
+.btn-accent:hover {
+  background-color: #fff;
+  color: var(--accent-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color) !important;
+  color: #fff !important;
+}
+
+.dialog-overlay {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100vw;
+  background: rgb(0, 0, 0, 0.6);
+}
+
+.hover:hover {
+  cursor: pointer;
+  background-color: #fff;
+  color: var(--accent-color);
+}
