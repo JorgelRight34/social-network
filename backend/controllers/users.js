@@ -30,10 +30,11 @@ export const authenticate = async (req, res, next) => {
 
 export const register = async (req, res) => {
     // Get form values
-    const { username, email, password, profilePic } = req.body;
+    const { username, email, password } = req.body;
 
     // Avoid empty required values
     if (!username || !email || !password) {
+        console.log("No username")
         res.status(400).send({
             error: true,
             message: 'Please fill all the fields'
@@ -49,7 +50,7 @@ export const register = async (req, res) => {
         username: username,
         email: email,
         password: hashedPassword,
-        profilePic: profilePic || null
+        profilePic: req.file?.filename || null
     })
 
     try {
@@ -57,6 +58,8 @@ export const register = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+    console.log("Returning")
+    return res.status(200);
 }
 
 
