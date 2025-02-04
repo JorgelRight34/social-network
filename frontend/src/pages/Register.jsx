@@ -13,16 +13,9 @@ const Register = () => {
 
     const handleOnSubmit = async (event) => {
         event.preventDefault();
-
-        await api.post('users/register', {
-            username: formData.username.replace(' ', ''),
-            email: formData.email.replace(' ', ''),
-            password: formData.password.replace(' ', '')
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).catch((err) => {
+        const data = new FormData(formRef.current);
+    
+        await api.post('users/register', data).catch((err) => {
             alert(err.response.data.message);
             console.log(err);
         });
@@ -46,22 +39,28 @@ const Register = () => {
                     <input 
                         name="username" 
                         className="form-control mb-3" 
-                        placeholder="username" 
+                        placeholder="Username" 
                         onBlur={handleOnBlur()} 
                     />
                     <input 
                         name="email" 
                         className="form-control mb-3" 
                         type="email" 
-                        placeholder="email" 
+                        placeholder="Email" 
                         onBlur={handleOnBlur()} 
                     />
                     <input 
                         name="password" 
-                        className="form-control mb-5"  
+                        className="form-control mb-3"  
                         type="password" 
-                        placeholder="password" 
+                        placeholder="Password" 
                         onBlur={handleOnBlur()} 
+                    />
+                    <input
+                        type="file"
+                        name="profile-pic"
+                        className="form-control mb-5"
+                        placeholder="Upload profile pic"
                     />
                     <div>
                         <div className="mb-2">

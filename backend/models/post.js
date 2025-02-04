@@ -17,7 +17,7 @@ const postSchema = new moongose.Schema({
         type: Array,
         required: false
     }
-})
+}, { timestamps: true })
 
 const Post = moongose.model('Post', postSchema);
 

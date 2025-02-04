@@ -1,57 +1,83 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import useFormInput from "../hooks/useFormInput"
+import useFormInput from "../hooks/useFormInput";
+import PostComment from "./PostComment";
+import Username from "./Username";
+import { useSelector } from "react-redux";
 
 const PostChat = ({ post }) => {
-    const [formData, setFormData] = useFormInput();
-    const [comments, setComments] = useState([]);
+  const [formData, setFormData] = useFormInput();
+  const [comments, setComments] = useState([]);
+  const { user } = useSelector((state) => state.user);
 
-    const handleOnSubmit = async (event) => {
-        event.preventDefault();
-        let response;
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+    let response;
 
-        try {
-            response = await api.post('comments/', {
-                content: formData.content,
-                postId: post._id
-            })
-        } catch (err) {
-            console.log(error);
-        }
+    try {
+      response = await api.post("comments/", {
+        content: formData.content,
+        postId: post._id,
+      });
+    } catch (err) {
+      console.log(error);
+      return;
     }
 
-    useEffect(() => {
-        const getComments = async () => {
-            let response;
-            try {
-                response = await api.get(`comments/${post._id}`);
-            } catch (err) {
-                console.log(err);
-                return
-            }
-            console.log(response.data)
-            setComments(response.data)
-        }
-        
-        getComments();
-    }, [])
+    setComments((prev) => [response.data, ...prev]);
+    setFormData({});
+    event.target.reset();
+  };
 
-    return (
-        <>
-            <form className="border" method="POST" onSubmit={(e) => handleOnSubmit(e)}>
-                <div className="p-3">
-                    User {post._id}
-                </div>
-                <div>
-                    <textarea name="content" onBlur={setFormData()}></textarea>
-                    <button type="submit" className="btn btn-accent">Submit</button>
-                </div>
-            </form>
-            <ul>
-                {comments.map((comment, key) => <li key={key}>{comment.content}</li>)}
-            </ul>
-        </>
-    )
-}
+  useEffect(() => {
+    const getComments = async () => {
+      let response;
+      try {
+        response = await api.get(`comments/${post._id}`);
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+      setComments(response.data);
+    };
 
-export default PostChat
+    getComments();
+  }, []);
+
+  return (
+    <>
+      {user ? (
+        <form
+          className="border rounded-3 p-3 mb-3"
+          method="POST"
+          onSubmit={(e) => handleOnSubmit(e)}
+        >
+          {/* Header */}
+          <div className="mb-3">
+            <Username user={user} />
+          </div>
+          {/* Body */}
+          <div>
+            <textarea
+              className="form-control bg-secondary mb-2"
+              name="content"
+              onBlur={setFormData()}
+            ></textarea>
+            <button type="submit" className="btn btn-accent">
+              Submit
+            </button>
+          </div>
+        </form>
+      ) : (
+        ""
+      )}
+      <div>
+        {comments.map((comment) => (
+          <PostComment className="mb-3" key={comment._id} comment={comment} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default PostChat;

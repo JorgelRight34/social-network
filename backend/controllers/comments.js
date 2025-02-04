@@ -1,9 +1,7 @@
 import Comment from "../models/comment.js";
-import Post from "../models/post.js";
 
 export const createComment = async (req, res) => {
     const { content, postId } = req.body;
-    console.log(req.body);
 
     if (!content || !postId) {
         return res.status(400).send('Please fill all the fields.')
@@ -16,7 +14,7 @@ export const createComment = async (req, res) => {
     })
 
     await comment.save();
-
+    await comment.populate('user');
     return res.json(comment)
 }
 

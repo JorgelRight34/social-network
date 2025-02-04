@@ -1,3 +1,5 @@
+import api from "../api";
+
 export const encodeFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -5,4 +7,31 @@ export const encodeFileToBase64 = (file) => {
       reader.onerror = error => reject(error);
       reader.readAsDataURL(file);
     });
+}
+
+
+export const getPost = async (id) => {
+  let response;
+  
+  try {
+    response = await api.get(`/posts/${id}`);
+  } catch (err) {
+    console.log(err)
+    return
+  }
+
+  return response.data
+}
+
+export const getUser = async (username) => {
+  let response;
+  
+  try {
+    response = await api.get(`/users/${username}`);
+  } catch (err) {
+    console.log(err)
+    return
+  }
+
+  return response.data
 }

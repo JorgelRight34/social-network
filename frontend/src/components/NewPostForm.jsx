@@ -15,13 +15,7 @@ const NewPostForm = () => {
         data.append('files', fileInputRef.current.files[0]);
 
         try {
-            await fetch('http://localhost:3000/posts/', {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            });
+            await api.post('http://localhost:3000/posts/', data);
         } catch (err) {
             console.log(err);
         }

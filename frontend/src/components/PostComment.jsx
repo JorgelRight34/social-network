@@ -1,0 +1,18 @@
+import Username from "./Username"
+
+const PostComment = ({ className, comment }) => {
+    return (
+        <div className={`border rounded-3 p-3 ${className}`}>
+            {/* Header */}
+            <div className="mb-3">
+                <Username user={comment.user} />
+            </div>
+            {/* Body */}
+            <div>
+                {comment.content}
+            </div>
+        </div>
+    )
+}
+
+export default PostComment

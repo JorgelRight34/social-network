@@ -6,20 +6,12 @@ import DialogBody from "./DialogBody";
 import PostChat from "./PostChat";
 import { useSelector } from "react-redux";
 import DeletePostBtn from "./DeletePostBtn";
+import CustomCarousel from "./CustomCarousel";
+import { useNavigate } from "react-router";
 
-const Post = ({ className='', post, size=10 }) => {
-    const [isChatShowing, setIsChatShowing] = useState(false);
+const Post = ({ className='', post }) => {
+    const navigate = useNavigate();
     const { user } = useSelector(state => state.user);
-
-    const renderImage = (media) => {
-        return (
-            <img 
-                className="img-fluid w-100" 
-                src={`http://localhost:3000/static/${media}`} 
-                style={{height: `${size * 1.6}rem`, objectFit: 'contain'}}
-            />
-        )
-    }
 
     const showChatDialog = () => {
         setIsChatShowing(true);
@@ -41,19 +33,7 @@ const Post = ({ className='', post, size=10 }) => {
                         {post.title}
                     </div>
                 </div>
-                {post.media.length > 0 ? (
-                    <div className="bg-black">
-                        {post.media.length > 1 ? (
-                            <Carousel>
-                                {post.media.map(media => (
-                                    <Carousel.Item>
-                                        {renderImage(media)}
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        ): renderImage(post.media[0])}
-                    </div>
-                ): ''}
+                <CustomCarousel media={post.media} />
                 <div>
                     <div className="p-3">
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore ducimus ad, molestiae laborum velit quam nulla alias harum corrupti voluptas, cupiditate reprehenderit deleniti accusamus quas aliquam blanditiis, placeat vitae aliquid.
@@ -65,7 +45,12 @@ const Post = ({ className='', post, size=10 }) => {
                             </span>
                             &nbsp; 0
                         </RoundedPill>
-                        <RoundedPill onClick={showChatDialog}>
+                        <RoundedPill onClick={() => navigate(
+                            `/post/${post.user.username}/${post._id}`, 
+                            {
+                                state: { post: post }
+                            }
+                        )}>
                             <span className="material-symbols-outlined">
                                 chat
                             </span>
@@ -74,12 +59,6 @@ const Post = ({ className='', post, size=10 }) => {
                     </div>
                 </div>
             </div>
-            <Dialog className={"p-lg-3"} show={isChatShowing}>
-               <DialogBody title={post.title} onHide={() => setIsChatShowing(false)}>
-                    {/* Avoid fetching without opening the dialog */}
-                    {isChatShowing ? <PostChat post={post} /> : ''}
-               </DialogBody>
-            </Dialog>
         </>
     )
 }

@@ -17,6 +17,6 @@ export const loginUser = () => async (dispatch) => {
         console.log(err);
         return
     }
-    console.log("dispatching")
+    console.log("dispatching", response.data)
     dispatch(setUser(response.data))
 }

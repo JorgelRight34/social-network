@@ -29,11 +29,10 @@ const Index = () => {
             <Navbar />
             <div className="row mx-0 d-flex justify-content-center p-lg-3">
                 <div className="col-lg-3">
-
                 </div>
                 <div className="col-lg-6">
                     <div className="rounded-3">
-                        {posts.map(post => <Post className="mb-3" post={post} />)}
+                        {posts.map(post => <Post key={post._id} className="mb-3" post={post} />)}
                     </div>
                 </div>
                 <div className="col-lg-3">

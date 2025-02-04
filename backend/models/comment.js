@@ -13,8 +13,8 @@ const CommentSchema = new moongose.Schema({
     },
     content: {
         type: String
-    }
-})
+    },
+}, {timestamps: true})
 const Comment = moongose.model('Comment', CommentSchema);
 
 export default Comment

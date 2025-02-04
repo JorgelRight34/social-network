@@ -58,10 +58,9 @@ export const register = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-    console.log("Returning")
+
     return res.status(200);
 }
-
 
 export const refreshToken = async (req, res) => {
     const refresh = req.body.refreshToken;   // Get refresh token
@@ -83,9 +82,14 @@ export const refreshToken = async (req, res) => {
 
 
 export const userInfo = async (req, res) => {
-    const user = await User.findOne({ username: req.user.username })
+    const username = req.params?.username || req.user?.username;
+    const user = await User.findOne({ username: username })
     if (user) {
-        return res.json(user);
+        return res.json({
+            username: user.username, 
+            profilePic: user.profilePic, 
+            email: user.email
+        });
     }
 
     return res.status(400).send('User doesn\'t exists.')
