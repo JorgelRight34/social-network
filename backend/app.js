@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import router from "./routes/index.js";
-import { connectDB } from "./config/db.js";
+import sequelize from "./config/db.js";
 
 dotenv.config();
 
@@ -20,9 +20,13 @@ app.use(express.json());    // Parse body requests to JSON
 // Routes
 app.use('/', router);
 
+// Run migrations
+sequelize.sync({ alter: true, logging: false })
+    .then(() => console.log('Database synced'))
+    .catch((err) => console.error('Error syncing database', err));
 
 // Start the server
 app.listen(PORT, () => {
-    connectDB();    // Connect to database
+    // connectDB();    // Connect to database
     console.log(`Server is running at http://localhost:${PORT}/`);
 })

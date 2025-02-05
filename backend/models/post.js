@@ -1,24 +1,34 @@
-import moongose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
+import User from "./user.js";
 
-const postSchema = new moongose.Schema({
-    user: {
-        type: moongose.Schema.Types.ObjectId,
-        ref: 'User'
+const Post = sequelize.define('Post', {
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Users',
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
     title: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false,
+        validate: {
+            len: [1, 255]
+        }
     },
     body: {
-        type: String,
-        required: true
+        type: DataTypes.TEXT,
+        required: false,
+        allowNull: true,
     },
     media: {
-        type: Array,
+        type: DataTypes.JSON,
         required: false
     }
-}, { timestamps: true })
-
-const Post = moongose.model('Post', postSchema);
+}, { timestamps: true });
 
 export default Post

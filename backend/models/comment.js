@@ -1,20 +1,34 @@
-import moongose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
+import User from "./user.js";
+import Post from "./post.js";
 
-const CommentSchema = new moongose.Schema({
-    user: {
-        type: moongose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+const Comment = sequelize.define('Comment', {
+    userId: {
+        type: DataTypes.INTEGER,
+        required: true,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        },
+        onDelete: 'CASCADE'
     },
-    post: {
-        type: moongose.Schema.Types.ObjectId,
-        ref: 'Post',
-        required: true
+    postId: {
+        type: DataTypes.INTEGER,
+        required: true,
+        allowNull: false,
+        references: {
+            model: Post,
+            key: 'id',
+        },
+        onDelete: 'CASCADE'
     },
     content: {
-        type: String
-    },
-}, {timestamps: true})
-const Comment = moongose.model('Comment', CommentSchema);
+        type: DataTypes.TEXT,
+        required: true,
+        allowNull: false
+    }
+}, { timestamps: true })
 
 export default Comment

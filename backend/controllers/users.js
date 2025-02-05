@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+import { User } from "../models/index.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
@@ -46,20 +46,14 @@ export const register = async (req, res) => {
     const hashedPassword = await bycript.hash(password, 10);
 
     // Create & save user
-    const user = new User({
+    const user = await User.create({
         username: username,
         email: email,
         password: hashedPassword,
         profilePic: req.file?.filename || null
     })
 
-    try {
-        await user.save();
-    } catch (err) {
-        console.log(err);
-    }
-
-    return res.status(200);
+    return res.status(201).json(user);
 }
 
 export const refreshToken = async (req, res) => {
@@ -83,7 +77,12 @@ export const refreshToken = async (req, res) => {
 
 export const userInfo = async (req, res) => {
     const username = req.params?.username || req.user?.username;
-    const user = await User.findOne({ username: username })
+    const user = await User.findOne({ 
+        where: {
+            username
+        }
+    })
+
     if (user) {
         return res.json({
             username: user.username, 
@@ -99,7 +98,6 @@ export const userInfo = async (req, res) => {
 export const login = async (req, res) => {
     // Get credentials
     const { username, password } = req.body;
-    console.log(req.body);
 
     // Validate credentials are not empty
     if (!username || !password) {
@@ -111,7 +109,8 @@ export const login = async (req, res) => {
     }
 
     // Look for user in the database
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ where: { username } });
+    console.log("user", user)
     if (!user) {   
         res.status(400).json({
             error: true,

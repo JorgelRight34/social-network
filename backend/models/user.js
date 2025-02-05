@@ -1,25 +1,32 @@
-import moongose from "mongoose";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
 
-const usersSchema = new moongose.Schema({
+const User = sequelize.define('User', {
     username: {
-        type: String,
-        required: true,
-        unique: true
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            len: [1, 255]
+        }
     },
     email: {
-        type: String,
-        required: true,
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true
+        }
     },
     password: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     profilePic: {
-        type: String,
+        type: DataTypes.STRING,
+        required: false,
+        allowNull: true,
     }
-})
-
-const User = moongose.model('User', usersSchema);
+});
 
 export default User
-
