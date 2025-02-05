@@ -62,6 +62,6 @@ export const deletePost = async (req, res) => {
 
 
 export const getPosts = async (req , res) => {
-    let posts = await Post.find().populate('user');
+    let posts = await Post.find(req.query).populate('user');
     return res.json(posts);
 }
