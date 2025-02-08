@@ -1,11 +1,11 @@
-const UserCard = ({ user, size = 60, className = "" }) => {
+const RepresentationCard = ({ rep, size = 60, className = "", title = "" }) => {
   return (
     <>
       <div
         className={`position-relative w-100 p-5 ${className}`}
         style={{
           backgroundImage: `url(${
-            user.wallpaper ||
+            rep.wallpaper ||
             "https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg"
           })`,
           objectFit: "cover",
@@ -17,7 +17,7 @@ const UserCard = ({ user, size = 60, className = "" }) => {
         >
           <img
             src={`http://localhost:3000/static/${
-              user.profilePic || "default-profile-pic.jpg"
+              rep.profilePic || "default-profile-pic.jpg"
             }`}
             className="rounded-circle me-3"
             style={{
@@ -25,11 +25,11 @@ const UserCard = ({ user, size = 60, className = "" }) => {
               widht: `${size}px`,
             }}
           />
-          <h3 className="text-white">{user.username}</h3>
+          <h3 className="text-white">{title}</h3>
         </div>
       </div>
     </>
   );
 };
 
-export default UserCard;
+export default RepresentationCard;

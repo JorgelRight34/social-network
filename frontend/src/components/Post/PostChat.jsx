@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import api from "../api";
-import useFormInput from "../hooks/useFormInput";
+import api from "../../api";
+import useFormData from "../../hooks/useFormData";
 import PostComment from "./PostComment";
-import Username from "./Username";
+import Username from "../Username";
 import { useSelector } from "react-redux";
 
 const PostChat = ({ post }) => {
-  const [formData, setFormData] = useFormInput();
+  const [formData, setFormData] = useFormData();
   const [comments, setComments] = useState([]);
   const { user } = useSelector((state) => state.user);
 
@@ -17,7 +17,7 @@ const PostChat = ({ post }) => {
     try {
       response = await api.post("comments/", {
         content: formData.content,
-        postId: post._id,
+        postId: post.id,
       });
     } catch (err) {
       console.log(error);
@@ -33,7 +33,7 @@ const PostChat = ({ post }) => {
     const getComments = async () => {
       let response;
       try {
-        response = await api.get(`comments/${post._id}`);
+        response = await api.get(`comments/${post.id}`);
       } catch (err) {
         console.log(err);
         return;

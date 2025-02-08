@@ -76,12 +76,19 @@ export const refreshToken = async (req, res) => {
 
 
 export const userInfo = async (req, res) => {
-    const username = req.params?.username || req.user?.username;
-    const user = await User.findOne({ 
-        where: {
-            username
-        }
-    })
+    const username = req.user?.username;
+    let user;
+
+    try {
+        user = await User.findOne({ 
+            where: {
+                username
+            }
+        })
+    } catch (err) {
+        console.error("error", err);
+        return res.status(500);
+    }
 
     if (user) {
         return res.json({
@@ -92,6 +99,25 @@ export const userInfo = async (req, res) => {
     }
 
     return res.status(400).send('User doesn\'t exists.')
+}
+
+
+export const getUser = async (req, res) => {
+    const username = req.params?.username || '';
+    let user;
+
+    try {
+        user = await User.findOne({
+            where: {
+                username
+            }
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(500)
+    }
+    
+    return res.json(user)
 }
 
 
@@ -110,7 +136,6 @@ export const login = async (req, res) => {
 
     // Look for user in the database
     const user = await User.findOne({ where: { username } });
-    console.log("user", user)
     if (!user) {   
         res.status(400).json({
             error: true,

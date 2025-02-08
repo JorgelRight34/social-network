@@ -47,8 +47,12 @@ body {
   background: rgb(0, 0, 0, 0.6);
 }
 
-.hover:hover {
+.hover-accent:hover {
   cursor: pointer;
   background-color: #fff;
   color: var(--accent-color);
+}
+
+.hover {
+  cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
-import User from "./user.js";
+
 
 const Post = sequelize.define('Post', {
     userId: {
@@ -9,6 +9,16 @@ const Post = sequelize.define('Post', {
         references: {
             model: 'Users',
             key: 'id'
+        },
+        onDelete: 'CASCADE'
+    },
+    networkId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        required: false,
+        references: {
+            model: 'Networks',
+            key: 'id',
         },
         onDelete: 'CASCADE'
     },

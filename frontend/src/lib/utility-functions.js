@@ -27,7 +27,7 @@ export const getUser = async (username) => {
   let response;
   
   try {
-    response = await api.get(`/users/${username}`);
+    response = await api.get(`/users/profile/${username}`);
   } catch (err) {
     console.log(err)
     return

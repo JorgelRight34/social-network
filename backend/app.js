@@ -27,6 +27,5 @@ sequelize.sync({ alter: true, logging: false })
 
 // Start the server
 app.listen(PORT, () => {
-    // connectDB();    // Connect to database
     console.log(`Server is running at http://localhost:${PORT}/`);
 })

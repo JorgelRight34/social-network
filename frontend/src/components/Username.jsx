@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router";
+
 const Username = ({ user }) => {
+  const navigate = useNavigate();
   return (
-    <>
+    <div
+      className="hover"
+      onClick={() =>
+        navigate(`/${user.username}`, { state: { username: user.username } })
+      }
+    >
       <img
         src={`http://localhost:3000/static/${
           user.profilePic || "default-profile-pic.jpg"
@@ -9,7 +17,7 @@ const Username = ({ user }) => {
         style={{ height: "30px", widht: "30px" }}
       />
       <span className="text-white">{user.username}</span>
-    </>
+    </div>
   );
 };
 

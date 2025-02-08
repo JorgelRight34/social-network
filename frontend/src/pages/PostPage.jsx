@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "react-router";
 import CustomCarousel from "../components/CustomCarousel";
 import Navbar from "../components/Navbar";
-import PostChat from "../components/PostChat";
+import PostChat from "../components/Post/PostChat";
 import Username from "../components/Username";
 import { useEffect } from "react";
 import { getPost } from "../lib/utility-functions";
@@ -12,7 +12,6 @@ const PostPage = ({}) => {
   const location = useLocation();
   const params = useParams();
   const { post } = location.state || getPost(params.post);
-  const { user } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -25,7 +24,7 @@ const PostPage = ({}) => {
               <>
                 <div className="border rounded-3 shadow-sm mb-4">
                   <div className="d-flex align-items-center mb-3 p-3">
-                    <Username user={post.user} />
+                    <Username user={post.User} />
                     <h6 className="ms-auto mb-0">{post.title}</h6>
                   </div>
                   <div className="mb-3">

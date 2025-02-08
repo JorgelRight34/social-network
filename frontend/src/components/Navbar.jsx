@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import CreateBtn from "./CreateBtn";
+import CreateBtn from "./Post/CreateBtn";
 import Username from "./Username";
 import RoundedPill from "./RoundedPill";
 import { useNavigate } from "react-router";
@@ -35,13 +35,7 @@ const Navbar = () => {
           <div className="col-3 d-flex align-items-center justify-content-center">
             <CreateBtn />
             {user ? (
-              <span
-                onClick={() =>
-                  navigate(`/${user.username}`, {
-                    state: { profileUser: user },
-                  })
-                }
-              >
+              <span>
                 <Username user={user} />
               </span>
             ) : (

@@ -9,6 +9,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import PostPage from "./pages/PostPage";
 import ProfilePage from "./pages/ProfilePage";
+import NetworkPage from "./pages/NetworkPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/post/:username/:id" element={<PostPage />} />
           <Route path="/:username" element={<ProfilePage />} />
+          <Route path="/network/:networkName" element={<NetworkPage />} />
         </Routes>
       </Router>
     </Provider>
