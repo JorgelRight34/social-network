@@ -18,7 +18,7 @@ const NetworksWidget = ({}) => {
   return (
     <>
       {networks.map((network) => (
-        <Network className="mt-3" network={network} />
+        <Network className="mt-3" key={network.id} network={network} />
       ))}
     </>
   );

@@ -12,7 +12,7 @@ const Index = () => {
     const getPosts = async () => {
       let response;
       try {
-        response = await api.get("posts/posts");
+        response = await api.get("posts/");
       } catch (err) {
         console.log(err);
         return;
@@ -32,14 +32,21 @@ const Index = () => {
         <div className="col-lg-6">
           <div className="rounded-3">
             {posts.map((post) => (
-              <Post key={post._id} className="mb-3" post={post} />
+              <Post
+                key={post.id}
+                className="mb-3"
+                post={post}
+                showNetwork={true}
+              />
             ))}
           </div>
         </div>
         <div className="col-lg-3">
           <div className="bg-primary border p-3 rounded-3 shadow-sm">
-            Networks
-            <CreateNetwork />
+            <div className="d-flex align-items-center">
+              <span className="me-auto">Networks</span>
+              <CreateNetwork />
+            </div>
             <NetworksWidget />
           </div>
         </div>

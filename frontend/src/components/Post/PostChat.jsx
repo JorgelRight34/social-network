@@ -61,7 +61,7 @@ const PostChat = ({ post }) => {
             <textarea
               className="form-control bg-secondary mb-2"
               name="content"
-              onBlur={setFormData()}
+              onBlur={setFormData}
             ></textarea>
             <button type="submit" className="btn btn-accent">
               Submit

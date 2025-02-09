@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
 
-const Username = ({ user }) => {
+const Username = ({ user, className = "", network = "" }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="hover"
+      className={`hover ${className}`}
       onClick={() =>
         navigate(`/${user.username}`, { state: { username: user.username } })
       }
@@ -16,7 +16,10 @@ const Username = ({ user }) => {
         className="rounded-circle me-2"
         style={{ height: "30px", widht: "30px" }}
       />
-      <span className="text-white">{user.username}</span>
+      <span className="text-white">
+        {user.username}
+        {network ? ` / ${network}` : ""}
+      </span>
     </div>
   );
 };

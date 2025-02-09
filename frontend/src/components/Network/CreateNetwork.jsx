@@ -3,6 +3,7 @@ import RoundedPill from "../RoundedPill";
 import Dialog from "../Dialog";
 import DialogBody from "../DialogBody";
 import NetworkForm from "./NetworkForm";
+import api from "../../api";
 
 const CreateNetwork = ({}) => {
   const [showDialog, setShowDialog] = useState(false);
@@ -11,15 +12,21 @@ const CreateNetwork = ({}) => {
     setShowDialog(true);
   };
 
+  const hideDialog = () => {
+    setShowDialog(false);
+  };
+
   return (
     <>
-      <RoundedPill onClick={handleOnClick}>+ Create Network</RoundedPill>
-      <Dialog show={showDialog} className={"rounded-3 p-3"}>
-        <DialogBody
-          title="+ Create Network"
-          onHide={() => setShowDialog(false)}
-        >
-          <NetworkForm />
+      <RoundedPill className="border" onClick={handleOnClick}>
+        + Create Network
+      </RoundedPill>
+      <Dialog show={showDialog} className={"w-50 rounded-3 p-3"}>
+        <DialogBody title="+ Create Network" onHide={hideDialog}>
+          <NetworkForm
+            callback={hideDialog}
+            fetchData={(data) => api.post("networks/", data)}
+          />
         </DialogBody>
       </Dialog>
     </>

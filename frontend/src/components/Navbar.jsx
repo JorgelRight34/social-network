@@ -22,7 +22,10 @@ const Navbar = () => {
       <nav className="navbar bg-primary">
         <div className="container d-flex align-items-center px-3">
           <div className="col-3">
-            <a className="navbar-brand text-white" href="/">
+            <a
+              className="navbar-brand text-white hover"
+              onClick={() => navigate("/")}
+            >
               Deep
             </a>
           </div>
@@ -36,7 +39,7 @@ const Navbar = () => {
             <CreateBtn />
             {user ? (
               <span>
-                <Username user={user} />
+                <Username className="hover" user={user} />
               </span>
             ) : (
               <>

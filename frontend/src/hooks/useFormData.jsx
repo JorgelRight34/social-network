@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-const useFormData = () => {
-  const [formData, setFormData] = useState({});
+const useFormData = (defaultData = {}) => {
+  const [formData, setFormData] = useState(defaultData);
 
-  const handleOnChange = () => (event) => {
+  const handleOnChange = (event) => {
     const input = event.target;
     setFormData((prev) => ({ ...prev, [input.name]: input.value }));
   };

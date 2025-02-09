@@ -26,7 +26,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/post/:username/:id" element={<PostPage />} />
+          <Route path="/post/:network/:username/:id" element={<PostPage />} />
           <Route path="/:username" element={<ProfilePage />} />
           <Route path="/network/:networkName" element={<NetworkPage />} />
         </Routes>

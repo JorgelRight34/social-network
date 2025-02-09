@@ -1,12 +1,15 @@
-const RepresentationCard = ({ rep, size = 60, className = "", title = "" }) => {
+const RepresentationCard = ({ rep, size = 70, className = "", title = "" }) => {
+  const imgSize = `${size}px`;
+
   return (
     <>
       <div
         className={`position-relative w-100 p-5 ${className}`}
         style={{
           backgroundImage: `url(${
-            rep.wallpaper ||
-            "https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg"
+            rep.wallpaper
+              ? `http://localhost:3000/static/${rep.wallpaper}`
+              : "https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg"
           })`,
           objectFit: "cover",
         }}
@@ -21,8 +24,10 @@ const RepresentationCard = ({ rep, size = 60, className = "", title = "" }) => {
             }`}
             className="rounded-circle me-3"
             style={{
-              height: `${size}px`,
-              widht: `${size}px`,
+              height: imgSize,
+              widht: imgSize,
+              maxHeight: imgSize,
+              maxWidth: imgSize,
             }}
           />
           <h3 className="text-white">{title}</h3>

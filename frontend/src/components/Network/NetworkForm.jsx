@@ -1,57 +1,123 @@
-import { data } from "react-router";
-import api from "../../api";
 import { useRef } from "react";
+import ImageInput from "../ImageInput";
+import useFormData from "../../hooks/useFormData";
 
-const NetworkForm = ({}) => {
+const NetworkForm = ({
+  callback,
+  fetchData,
+  defaultFormData,
+  networkId,
+  method = "post",
+}) => {
   const formRef = useRef();
+  const [formData, setFormData] = useFormData({
+    name: defaultFormData?.name || "",
+    description: defaultFormData?.description || "",
+  });
   const profilePicInputRef = useRef();
   const wallpaperInputRef = useRef();
+  const wallpaperRef = useRef();
+  const defaultWallpaperUrl = `https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg`;
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    let response;
-    const data = new FormData(formRef.current);
-    data.set("profilePic", profilePicInputRef.current.files[0]);
-    data.set("wallpaper", wallpaperInputRef.current.files[0]);
 
-    try {
-      response = await api.post("networks/", data);
-    } catch (err) {
-      console.log(err);
-      return;
+    const data = new FormData(formRef.current);
+    if (networkId) {
+      data.set("networkId", networkId);
     }
 
-    console.log(response.data);
+    const profilePic = profilePicInputRef.current.files[0];
+    const wallpaper = wallpaperInputRef.current.files[0];
+
+    if (profilePic) {
+      data.set("profilePic", profilePicInputRef.current.files[0]);
+    }
+
+    if (wallpaper) {
+      data.set("wallpaper", wallpaperInputRef.current.files[0]);
+    }
+
+    try {
+      const response = await fetchData(data);
+      callback(); // Call the callback after successful submission
+    } catch (err) {
+      console.error("Error submitting form:", err);
+    }
+  };
+
+  const handleOnWallpaperChange = (event) => {
+    event.preventDefault();
+    const file = wallpaperInputRef.current.files[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      wallpaperRef.current.style.backgroundImage = `url(${imageUrl})`;
+    } else {
+      wallpaperRef.current.style.backgroundImage = `url(${defaultWallpaperUrl})`;
+    }
   };
 
   return (
     <>
       <form
-        method="post"
+        method={method}
         onSubmit={(e) => handleOnSubmit(e)}
         encType="multipart/form-data"
         ref={formRef}
       >
-        <input className="form-control mb-3" name="name" placeholder="Name" />
+        <div
+          className={`position-relative w-100 p-5 mb-3 rounded-3`}
+          role="button"
+          tabIndex="0"
+          style={{
+            backgroundImage: `url(${
+              defaultFormData?.wallpaper || defaultWallpaperUrl
+            })`,
+            objectFit: "cover",
+          }}
+          ref={wallpaperRef}
+          onClick={(event) => {
+            event.stopPropagation();
+            wallpaperInputRef.current.click();
+          }}
+        >
+          <input
+            className="d-none"
+            type="file"
+            name="wallpaper"
+            ref={wallpaperInputRef}
+            onChange={handleOnWallpaperChange}
+          />
+
+          <div
+            className="d-flex align-items-center position-absolute p-3"
+            style={{ left: 0, bottom: 0 }}
+          >
+            <ImageInput
+              size="70px"
+              ref={profilePicInputRef}
+              className="rounded-circle"
+              defaultImageUrl={defaultFormData?.profilePic}
+            />
+          </div>
+        </div>
+        <input
+          className="form-control mb-3"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={setFormData}
+          required
+        />
 
         <input
           className="form-control mb-3"
           name="description"
           placeholder="Description"
-        />
-
-        <input
-          className="form-control mb-3"
-          type="file"
-          name="profilePic"
-          ref={profilePicInputRef}
-        />
-
-        <input
-          className="form-control mb-3"
-          type="file"
-          name="wallpaper"
-          ref={wallpaperInputRef}
+          value={formData.description}
+          onChange={setFormData}
+          required
         />
 
         <button type="submit" className="btn btn-success w-100">

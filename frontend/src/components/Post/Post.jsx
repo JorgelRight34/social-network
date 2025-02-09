@@ -4,8 +4,9 @@ import DeletePostBtn from "./DeletePostBtn";
 import CustomCarousel from "../CustomCarousel";
 import { useNavigate } from "react-router";
 import { useRef } from "react";
+import Username from "../Username";
 
-const Post = ({ className = "", post }) => {
+const Post = ({ className = "", post, showNetwork = false }) => {
   const navigate = useNavigate();
   const postRef = useRef();
   const { user } = useSelector((state) => state.user);
@@ -21,15 +22,19 @@ const Post = ({ className = "", post }) => {
         ref={postRef}
       >
         <div className="p-3">
-          <div className="d-flex align-items-center">
-            <span className="me-auto">{post.User?.username}</span>
+          <div className="d-flex align-items-center mb-2">
+            <Username
+              className="me-auto"
+              network={showNetwork ? post.Network?.name || "" : ""}
+              user={post.User}
+            />
             {post.User?.username == user?.username ? (
               <DeletePostBtn post={post} postRef={postRef} />
             ) : (
               ""
             )}
           </div>
-          <div>{post.title}</div>
+          <h4 className="mb-0">{post.title}</h4>
         </div>
         <CustomCarousel media={post.media} />
         <div>
@@ -46,9 +51,12 @@ const Post = ({ className = "", post }) => {
             </RoundedPill>
             <RoundedPill
               onClick={() =>
-                navigate(`/post/${post.User.username}/${post.id}`, {
-                  state: { post: post },
-                })
+                navigate(
+                  `/post/${post.Network.name}/${post.User.username}/${post.id}`,
+                  {
+                    state: { post: post },
+                  }
+                )
               }
             >
               <span className="material-symbols-outlined">chat</span>

@@ -1,3 +1,4 @@
+import { getPagination } from "../lib/utils.js";
 import { Post } from "../models/index.js";
 import { User } from "../models/index.js";
 import Network from "../models/network.js";
@@ -60,9 +61,7 @@ export const deletePost = async (req, res) => {
 export const getPosts = async (req , res) => {
     try {
         const posts = await Post.findAll({
-            include: {
-                model: User
-            }
+            include: [User, Network]
         });
         return res.json(posts);
     } catch (err) {
@@ -75,17 +74,26 @@ export const getPosts = async (req , res) => {
 export const getNetworkPosts = async (req, res) => {
     try {
         const { networkName } = req.params;
+        const { page, size } = req.query;
+        const { limit, offset } = getPagination(page, size);
        
         const network = await Network.findOne({
             where: {
                 name: networkName
-            }
+            },
         })
 
+        if (!network) {
+            return res.status(404).send('Network doesn\'t exist.')
+        }
+
         const posts = await Post.findAll({
+            limit,
+            offset,
             where: {
                 networkId: network.id
-            }
+            },
+            include: [User, Network]
         })
 
         return res.json(posts);

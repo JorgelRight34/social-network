@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const api = axios.create({ baseURL: `http://localhost:3000/` });
+const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URI });
 
 api.interceptors.request.use(
     (config) => {
