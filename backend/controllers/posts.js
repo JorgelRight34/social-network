@@ -12,13 +12,20 @@ export const createPost = async (req, res) => {
         return res.status(400).send("Please fill all the fields");
     }
 
-    const post = await Post.create({
+    let post = await Post.create({
         userId: req.user.userId,
         networkId: networkId,
         title: title,
         body: body,
         media: req.files.map(file => file.filename)
     });
+
+    post = await Post.findOne({
+        where: {
+            id: post.id
+        },
+        include: [User]
+    })
 
     return res.status(201).json(post);
 }

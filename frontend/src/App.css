@@ -56,3 +56,39 @@ body {
 .hover {
   cursor: pointer;
 }
+
+.post {
+  animation-duration: .6s;
+  animation-fill-mode: backwards;
+  animation-name: fadeIn;
+}
+
+.network {
+  animation-duration: .6s;
+  animation-fill-mode: backwards;
+  animation-name: fadeIn;
+}
+
+.w-lg-50 {
+  width: 50%;
+}
+
+@media (max-width: 500px) {
+  .w-lg-50 {
+    width: 100%;
+  }
+
+  .post, .comment {
+    border: 0 solid black !important;
+    border-radius: 0 !important;
+  }
+
+  .dialog {
+    height: 100vh;
+    min-width: 100vw;
+  }
+
+  .border-sm-bottom {
+    border-bottom: 1px solid #fff !important;
+  }
+}

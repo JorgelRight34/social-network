@@ -18,7 +18,7 @@ const EditNetworkBtn = ({ network }) => {
   return (
     <>
       <RoundedPill
-        className={"position-absolute border"}
+        className={"position-absolute bg-primary border"}
         style={{ right: positionMargin, top: positionMargin }}
         onClick={() => setShowDialog(true)}
       >

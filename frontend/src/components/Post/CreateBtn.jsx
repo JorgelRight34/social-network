@@ -3,7 +3,7 @@ import Dialog from "../Dialog";
 import NewPostForm from "./NewPostForm";
 import DialogBody from "../DialogBody";
 
-const CreateBtn = ({ network, setPosts }) => {
+const CreateBtn = ({ network, setPosts, className = "" }) => {
   const [isDialogShowing, setIsDialogShowing] = useState(false);
 
   const hideDialog = () => {
@@ -12,12 +12,12 @@ const CreateBtn = ({ network, setPosts }) => {
 
   return (
     <>
-      <span
-        className="rounded-pill border me-3 px-3 p-1 hover-accent shadow-sm"
+      <div
+        className={`rounded-pill border px-3 p-1 hover-accent shadow-sm text-white ${className}`}
         onClick={() => setIsDialogShowing(true)}
       >
         + Create Post
-      </span>
+      </div>
       <Dialog className={"p-lg-3 w-50 rounded-3"} show={isDialogShowing}>
         <DialogBody title="Create Post" onHide={hideDialog}>
           <NewPostForm

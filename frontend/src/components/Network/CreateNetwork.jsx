@@ -5,7 +5,7 @@ import DialogBody from "../DialogBody";
 import NetworkForm from "./NetworkForm";
 import api from "../../api";
 
-const CreateNetwork = ({}) => {
+const CreateNetwork = ({ className = "" }) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const handleOnClick = () => {
@@ -18,7 +18,7 @@ const CreateNetwork = ({}) => {
 
   return (
     <>
-      <RoundedPill className="border" onClick={handleOnClick}>
+      <RoundedPill className={`border ${className}`} onClick={handleOnClick}>
         + Create Network
       </RoundedPill>
       <Dialog show={showDialog} className={"w-50 rounded-3 p-3"}>

@@ -5,9 +5,7 @@ const Username = ({ user, className = "", network = "" }) => {
   return (
     <div
       className={`hover ${className}`}
-      onClick={() =>
-        navigate(`/${user.username}`, { state: { username: user.username } })
-      }
+      onClick={() => navigate(`/${user?.username}`, { state: { user: user } })}
     >
       <img
         src={`http://localhost:3000/static/${

@@ -5,6 +5,9 @@ import RoundedPill from "./RoundedPill";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { loginUser } from "../actions/user";
+import SearchBar from "./SearchBar";
+import { mobileWidth } from "../lib/constants";
+import ChatBtn from "./Chat/ChatBtn";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.user);
@@ -16,6 +19,8 @@ const Navbar = () => {
       dispatch(loginUser());
     }
   });
+
+  if (window.innerWidth < mobileWidth) return;
 
   return (
     <header className="sticky-top shadow-sm">
@@ -30,17 +35,17 @@ const Navbar = () => {
             </a>
           </div>
           <div className="col-6">
-            <input
-              className="form-control rounded-pill"
-              placeholder="Search on Deep"
-            />
+            <SearchBar />
           </div>
           <div className="col-3 d-flex align-items-center justify-content-center">
-            <CreateBtn />
             {user ? (
-              <span>
-                <Username className="hover" user={user} />
-              </span>
+              <>
+                <CreateBtn className="me-3" />
+                <ChatBtn className="me-3" />
+                <span>
+                  <Username className="hover" user={user} />
+                </span>
+              </>
             ) : (
               <>
                 <RoundedPill

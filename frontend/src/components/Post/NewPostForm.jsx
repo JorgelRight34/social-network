@@ -1,17 +1,18 @@
 import api from "../../api";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ImageInput from "../ImageInput";
+import { Carousel } from "react-bootstrap";
 
 const NewPostForm = ({ network, callback, setPosts }) => {
   const formRef = useRef();
-  const fileInputRef = useRef();
+  const [files, setFiles] = useState({});
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(formRef.current);
     let response;
 
-    data.append("files", fileInputRef.current.files[0]);
+    Object.keys(files).forEach((key) => data.append("files", files[key]));
 
     try {
       response = await api.post("http://localhost:3000/posts/", data);
@@ -33,13 +34,31 @@ const NewPostForm = ({ network, callback, setPosts }) => {
         encType="multipart/form-data"
         ref={formRef}
       >
-        <ImageInput ref={fileInputRef} className="rounded-3 mb-3" />
+        <Carousel>
+          {[...Array(Object.keys(files).length + 1).keys()].map((key) => (
+            <Carousel.Item key={key}>
+              <ImageInput
+                fileKey={key}
+                setFiles={setFiles}
+                className="rounded-3 mb-5 mb-lg-3"
+              />
+            </Carousel.Item>
+          ))}
+        </Carousel>
 
         <input type="hidden" name="networkId" value={network?.id || ""} />
 
-        <input className="form-control mb-3" name="title" placeholder="Title" />
+        <input
+          className="form-control mb-5 mb-lg-3"
+          name="title"
+          placeholder="Title"
+        />
 
-        <input className="form-control mb-3" name="body" placeholder="Body" />
+        <input
+          className="form-control mb-5 mb-lg-3"
+          name="body"
+          placeholder="Body"
+        />
 
         <button type="submit" className="btn btn-success w-100">
           Submit

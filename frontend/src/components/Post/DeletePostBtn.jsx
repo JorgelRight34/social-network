@@ -20,7 +20,7 @@ const DeletePostBtn = ({ post, postRef }) => {
   };
 
   return (
-    <RoundedPill className={"border"} onClick={handleOnClick}>
+    <RoundedPill className={"border bg-secondary"} onClick={handleOnClick}>
       <span>Delete</span>
     </RoundedPill>
   );

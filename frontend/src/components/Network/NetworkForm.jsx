@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ImageInput from "../ImageInput";
 import useFormData from "../../hooks/useFormData";
 
@@ -14,7 +14,7 @@ const NetworkForm = ({
     name: defaultFormData?.name || "",
     description: defaultFormData?.description || "",
   });
-  const profilePicInputRef = useRef();
+  const [files, setFiles] = useState({});
   const wallpaperInputRef = useRef();
   const wallpaperRef = useRef();
   const defaultWallpaperUrl = `https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg`;
@@ -27,15 +27,15 @@ const NetworkForm = ({
       data.set("networkId", networkId);
     }
 
-    const profilePic = profilePicInputRef.current.files[0];
+    const profilePic = files["profilePic"];
     const wallpaper = wallpaperInputRef.current.files[0];
 
     if (profilePic) {
-      data.set("profilePic", profilePicInputRef.current.files[0]);
+      data.set("profilePic", profilePic);
     }
 
     if (wallpaper) {
-      data.set("wallpaper", wallpaperInputRef.current.files[0]);
+      data.set("wallpaper", wallpaper);
     }
 
     try {
@@ -67,7 +67,7 @@ const NetworkForm = ({
         ref={formRef}
       >
         <div
-          className={`position-relative w-100 p-5 mb-3 rounded-3`}
+          className={`position-relative w-100 p-5 mb-5 mb-lg-3 rounded-3`}
           role="button"
           tabIndex="0"
           style={{
@@ -96,14 +96,15 @@ const NetworkForm = ({
           >
             <ImageInput
               size="70px"
-              ref={profilePicInputRef}
+              fileKey={"profilePic"}
+              setFiles={setFiles}
               className="rounded-circle"
               defaultImageUrl={defaultFormData?.profilePic}
             />
           </div>
         </div>
         <input
-          className="form-control mb-3"
+          className="form-control mb-5 mb-lg-3"
           name="name"
           placeholder="Name"
           value={formData.name}
@@ -112,7 +113,7 @@ const NetworkForm = ({
         />
 
         <input
-          className="form-control mb-3"
+          className="form-control mb-5 mb-lg-3"
           name="description"
           placeholder="Description"
           value={formData.description}

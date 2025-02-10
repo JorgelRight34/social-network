@@ -33,7 +33,7 @@ const LoginForm = ({}) => {
   };
 
   return (
-    <div className="bg-secondary rounded-4 p-5 w-50">
+    <div className="bg-secondary rounded-4 p-3  p-lg-5 w-lg-50">
       <div className="d-flex mb-5 p-3 border-bottom">
         <h2>Log In</h2>
       </div>
@@ -46,14 +46,14 @@ const LoginForm = ({}) => {
           className="form-control shadow-sm mb-3"
           name="username"
           placeholder="Username"
-          onBlur={handleOnBlur()}
+          onBlur={handleOnBlur}
         />
         <input
           className="form-control shadow-sm mb-5"
           name="password"
           type="password"
           placeholder="Password"
-          onBlur={handleOnBlur()}
+          onBlur={handleOnBlur}
         />
         <div>
           <div className="mb-2">

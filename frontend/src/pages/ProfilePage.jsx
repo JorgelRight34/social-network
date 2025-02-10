@@ -4,11 +4,14 @@ import { getUser } from "../lib/utility-functions";
 import { useEffect, useState } from "react";
 import api from "../api";
 import RepresentationCard from "../components/RepresentationCard";
+import RoundedPill from "../components/RoundedPill";
 
 const ProfilePage = ({}) => {
   const location = useLocation();
   const params = useParams();
-  const profileUser = location.state?.profileUser || getUser(params.username);
+  const [profileUser, setProfileUser] = useState(
+    location.state?.profileUser || null
+  );
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -17,7 +20,13 @@ const ProfilePage = ({}) => {
       setPosts((prev) => [...response.data, ...prev]);
     };
 
-    // fetchUserPosts().catch((err) => console.log(err));
+    fetchUserPosts().catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    getUser(params.username)
+      .then(setProfileUser)
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -29,9 +38,18 @@ const ProfilePage = ({}) => {
           <RepresentationCard
             className="rounded-top-3"
             rep={profileUser}
-            title={profileUser.username}
+            title={profileUser?.username}
           />
-          <div className="bg-primary p-3 rounded-botom-3"></div>
+          <div className="bg-primary p-3 rounded-botom-3">
+            <div className="d-flex p-3">
+              <RoundedPill className="border bg-secondary me-3">
+                Chat
+              </RoundedPill>
+              <RoundedPill className="border bg-secondary me-3">
+                Posts
+              </RoundedPill>
+            </div>
+          </div>
         </div>
         <div className="col-lg-3">
           <div className="bg-primary border p-3 rounded-3 shadow-sm">

@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { getPagination } from "../lib/utils.js";
 import Network from "../models/network.js";
 import NetworkAdmin from "../models/networkAdmin.js";
@@ -104,12 +105,17 @@ export const getNetwork = async (req, res) => {
 
 export const getNetworks = async (req, res) => {
     try {
-        const { page, size } = req.query;
+        const { page, size, q } = req.query;
         const { limit, offset } = getPagination(page, size);
 
         const data = await Network.findAndCountAll({
             limit,
-            offset
+            offset,
+            where: {
+                name: {
+                    [Op.like]: `%${q || ''}%`
+                }
+            }
         });
 
         return res.json({

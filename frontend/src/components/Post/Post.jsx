@@ -18,7 +18,7 @@ const Post = ({ className = "", post, showNetwork = false }) => {
   return (
     <>
       <div
-        className={`bg-primary border rounded-3 shadow-sm ${className}`}
+        className={`post bg-primary border rounded-3 shadow-sm ${className}`}
         ref={postRef}
       >
         <div className="p-3">
@@ -45,11 +45,12 @@ const Post = ({ className = "", post, showNetwork = false }) => {
             blanditiis, placeat vitae aliquid.
           </div>
           <div className="d-flex align-items-center p-3">
-            <RoundedPill className={"me-3"}>
+            <RoundedPill className={"bg-secondary me-3"}>
               <span className="material-symbols-outlined">mood</span>
               &nbsp; 0
             </RoundedPill>
             <RoundedPill
+              className="bg-secondary"
               onClick={() =>
                 navigate(
                   `/post/${post.Network.name}/${post.User.username}/${post.id}`,

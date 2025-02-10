@@ -96,18 +96,14 @@ const NetworkPage = ({}) => {
       <div className="row mx-0 d-flex justify-content-center p-lg-3">
         <div className="col-lg-3"></div>
         <div className="col-lg-6">
-          {network ? (
-            <div className="position-relative">
-              <RepresentationCard
-                className="rounded-top-3"
-                rep={network}
-                title={network.name}
-              />
-              <EditNetworkBtn network={network} />
-            </div>
-          ) : (
-            ""
-          )}
+          <div className="position-relative">
+            <RepresentationCard
+              className="rounded-top-3"
+              rep={network}
+              title={network?.name}
+            />
+            {isAdmin ? <EditNetworkBtn network={network} /> : ""}
+          </div>
           <div className="bg-primary rounded-3">
             {posts.map((post, key) => (
               <Post key={key} className="mt-3" post={post} />

@@ -8,7 +8,6 @@ const NetworksWidget = ({}) => {
   useEffect(() => {
     const getNetworks = async () => {
       const response = await api.get("networks/");
-      console.log(response.data);
       return response.data;
     };
 

@@ -7,8 +7,8 @@ const RepresentationCard = ({ rep, size = 70, className = "", title = "" }) => {
         className={`position-relative w-100 p-5 ${className}`}
         style={{
           backgroundImage: `url(${
-            rep.wallpaper
-              ? `http://localhost:3000/static/${rep.wallpaper}`
+            rep?.wallpaper
+              ? `http://localhost:3000/static/${rep?.wallpaper}`
               : "https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg"
           })`,
           objectFit: "cover",
@@ -20,7 +20,7 @@ const RepresentationCard = ({ rep, size = 70, className = "", title = "" }) => {
         >
           <img
             src={`http://localhost:3000/static/${
-              rep.profilePic || "default-profile-pic.jpg"
+              rep?.profilePic || "default-profile-pic.jpg"
             }`}
             className="rounded-circle me-3"
             style={{

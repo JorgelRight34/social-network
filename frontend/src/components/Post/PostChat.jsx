@@ -48,7 +48,7 @@ const PostChat = ({ post }) => {
     <>
       {user ? (
         <form
-          className="border rounded-3 p-3 mb-3"
+          className="comment border rounded-3 p-3 mb-3"
           method="POST"
           onSubmit={(e) => handleOnSubmit(e)}
         >

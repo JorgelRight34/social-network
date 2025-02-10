@@ -6,7 +6,7 @@ const Network = ({ network, className = "" }) => {
 
   return (
     <div
-      className={`row hover border rounded-3 mx-0 ${className}`}
+      className={`row bg-secondary hover border rounded-3 mx-0 ${className}`}
       onClick={() => navigate(`/network/${network.name}`)}
     >
       <div className="col-lg-3 d-flex align-items-center justify-content-center">
