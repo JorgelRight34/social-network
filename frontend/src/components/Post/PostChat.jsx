@@ -6,7 +6,7 @@ import Username from "../Username";
 import { useSelector } from "react-redux";
 
 const PostChat = ({ post }) => {
-  const [formData, setFormData] = useFormData();
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const { user } = useSelector((state) => state.user);
 
@@ -16,7 +16,7 @@ const PostChat = ({ post }) => {
 
     try {
       response = await api.post("comments/", {
-        content: formData.content,
+        content: comment,
         postId: post.id,
       });
     } catch (err) {
@@ -25,8 +25,7 @@ const PostChat = ({ post }) => {
     }
 
     setComments((prev) => [response.data, ...prev]);
-    setFormData({});
-    event.target.reset();
+    setComment("");
   };
 
   useEffect(() => {
@@ -61,7 +60,8 @@ const PostChat = ({ post }) => {
             <textarea
               className="form-control bg-secondary mb-2"
               name="content"
-              onBlur={setFormData}
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
             ></textarea>
             <button type="submit" className="btn btn-accent">
               Submit
@@ -73,7 +73,7 @@ const PostChat = ({ post }) => {
       )}
       <div>
         {comments.map((comment) => (
-          <PostComment className="mb-3" key={comment._id} comment={comment} />
+          <PostComment className="mb-3" key={comment.id} comment={comment} />
         ))}
       </div>
     </>

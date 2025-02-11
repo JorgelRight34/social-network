@@ -9,13 +9,13 @@ const Username = ({ user, className = "", network = "" }) => {
     >
       <img
         src={`http://localhost:3000/static/${
-          user.profilePic || "default-profile-pic.jpg"
+          user?.profilePic || "default-profile-pic.jpg"
         }`}
         className="rounded-circle me-2"
         style={{ height: "30px", widht: "30px" }}
       />
       <span className="text-white">
-        {user.username}
+        {user?.username}
         {network ? ` / ${network}` : ""}
       </span>
     </div>

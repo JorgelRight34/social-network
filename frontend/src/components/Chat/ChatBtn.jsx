@@ -15,6 +15,7 @@ const ChatBtn = ({ className }) => {
       </RoundedPill>
       <ChatWidget
         show={isChatShowing}
+        setShow={setIsChatShowing}
         className={"position-fixed bottom-0 rounded-3 border"}
         style={{ zIndex: 90 }}
         onHide={() => setIsChatShowing(false)}

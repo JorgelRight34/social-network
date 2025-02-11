@@ -1,7 +1,43 @@
+import { useEffect, useState } from "react";
 import RoundedPill from "../RoundedPill";
 import ChatCard from "./ChatCard";
+import { useDispatch, useSelector } from "react-redux";
+import SearchUserBar from "./SearchUserBar";
+import { setChats, startChat } from "../../actions/chat";
+import Chat from "./Chat";
+import api from "../../api";
 
-const ChatWidget = ({ show, onHide, className = "", style = {} }) => {
+const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
+  const [currentSection, setCurrentSection] = useState("CHATS");
+  const { currentChat, chats } = useSelector((state) => state.chats);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentChat) {
+      setCurrentSection("CHAT");
+    } else {
+      return;
+    }
+
+    if (show) return;
+
+    setShow(true);
+  }, [currentChat]);
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      const response = await api.get("chats/");
+      console.log("responses", response.data);
+      dispatch(setChats(response.data));
+      return response.data;
+    };
+
+    if (chats?.length === 0) {
+      fetchChats();
+    }
+  }, []);
+
   return (
     <div
       className={`bg-secondary ${show ? "" : "d-none"} ${className}`}
@@ -16,11 +52,44 @@ const ChatWidget = ({ show, onHide, className = "", style = {} }) => {
         </span>
       </div>
       <div className="d-flex p-3">
-        <RoundedPill className="bg-primary border me-3">Users</RoundedPill>
+        <RoundedPill
+          onClick={() => setCurrentSection("CHATS")}
+          className="bg-primary border me-3"
+        >
+          Chats
+        </RoundedPill>
         <RoundedPill className="bg-primary border me-3">Groups</RoundedPill>
       </div>
-      <div className="p-3">
-        <ChatCard />
+      {/* Chats */}
+      <div
+        className={`p-3 ${currentSection === "CHATS" ? "" : "d-none"}`}
+        style={{ height: "50vh", overflowY: "auto" }}
+      >
+        <SearchUserBar className={"mb-3"} />
+        {chats.map((chat, key) => (
+          <ChatCard
+            chat={chat}
+            className="mb-3 shadow-sm"
+            key={chat?.chatId}
+            onClick={() => {
+              dispatch(startChat(chat));
+              setCurrentSection("CHAT");
+            }}
+          />
+        ))}
+      </div>
+      {/* Chat View */}
+      <div
+        className={`p-3 ${
+          currentSection == "CHAT" ? "" : "d-none"
+        } border-top bg-primary`}
+      >
+        {/* Messages */}
+        <Chat
+          chat={currentChat}
+          onHide={() => setCurrentSection("CHATS")}
+          style={{ height: "50vh" }}
+        />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import RepresentationCard from "../components/RepresentationCard";
 import RoundedPill from "../components/RoundedPill";
+import StartChatBtn from "../components/Chat/StartChatBtn";
 
 const ProfilePage = ({}) => {
   const location = useLocation();
@@ -42,9 +43,7 @@ const ProfilePage = ({}) => {
           />
           <div className="bg-primary p-3 rounded-botom-3">
             <div className="d-flex p-3">
-              <RoundedPill className="border bg-secondary me-3">
-                Chat
-              </RoundedPill>
+              <StartChatBtn user={profileUser} className="me-3" />
               <RoundedPill className="border bg-secondary me-3">
                 Posts
               </RoundedPill>

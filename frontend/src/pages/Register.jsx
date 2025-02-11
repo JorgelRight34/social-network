@@ -11,11 +11,17 @@ const Register = () => {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(formRef.current);
+    let success = true;
 
     await api.post("users/register", data).catch((err) => {
       alert(err.response.data.message);
       console.log(err);
+      success = false;
     });
+
+    if (success) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -37,21 +43,21 @@ const Register = () => {
             name="username"
             className="form-control mb-3"
             placeholder="Username"
-            onBlur={setFormData()}
+            onBlur={setFormData}
           />
           <input
             name="email"
             className="form-control mb-3"
             type="email"
             placeholder="Email"
-            onBlur={setFormData()}
+            onBlur={setFormData}
           />
           <input
             name="password"
             className="form-control mb-3"
             type="password"
             placeholder="Password"
-            onBlur={setFormData()}
+            onBlur={setFormData}
           />
           <input
             type="file"
