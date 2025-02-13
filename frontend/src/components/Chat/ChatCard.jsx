@@ -23,7 +23,8 @@ const ChatCard = ({ chat, onClick, className = "" }) => {
       </div>
       <div className="col p-2">
         <h6>{chat?.members?.[0]?.username}</h6>
-        <p>Lorem, ipsum dolor sit amet.</p>
+        {console.log(chat)}
+        <p>{chat.lastMessage}</p>
       </div>
     </div>
   );

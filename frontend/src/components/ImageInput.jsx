@@ -31,6 +31,7 @@ const ImageInput = ({
       {/* Hidden file input */}
       <input
         ref={ref}
+        type="file"
         style={{ visibility: "hidden", position: "absolute" }}
         onChange={handleOnChange}
       />

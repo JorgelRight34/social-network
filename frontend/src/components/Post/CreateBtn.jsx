@@ -16,7 +16,7 @@ const CreateBtn = ({ network, setPosts, className = "" }) => {
         className={`rounded-pill border px-3 p-1 hover-accent shadow-sm text-white ${className}`}
         onClick={() => setIsDialogShowing(true)}
       >
-        + Create Post
+        + Create post
       </div>
       <Dialog className={"p-lg-3 w-50 rounded-3"} show={isDialogShowing}>
         <DialogBody title="Create Post" onHide={hideDialog}>

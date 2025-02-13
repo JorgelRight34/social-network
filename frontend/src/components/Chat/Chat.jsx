@@ -9,6 +9,7 @@ import api from "../../api";
 const Chat = ({ chat, onHide, style }) => {
   const [messages, setMessages] = useState([]);
   const { user } = useSelector((state) => state.user);
+  const { currentChat } = useSelector((state) => state.chats);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,8 +21,11 @@ const Chat = ({ chat, onHide, style }) => {
       setMessages((prev) => [...prev, msg]);
     };
 
-    socket.on("chat-message", addMessage);
-    socket.emit("register", user.id);
+    if (currentChat?.chatId === currentChat?.chatId) {
+      console.log("connecting");
+      socket.on("chat-message", addMessage);
+      socket.emit("register", user.id);
+    }
 
     return () => {
       socket.off("chat-message", addMessage);
@@ -35,6 +39,8 @@ const Chat = ({ chat, onHide, style }) => {
       console.log("messages", response.data);
       return response.data;
     };
+
+    setMessages([]); // Clear to avoid showing foreign messages
 
     if (chat?.chatId) {
       getMessages().then(setMessages);
@@ -54,7 +60,11 @@ const Chat = ({ chat, onHide, style }) => {
       <div className="d-flex flex-column pt-2" style={style}>
         <div className="mb-auto" style={{ overflowY: "auto" }}>
           {messages?.map((message, key) => (
-            <ChatMessage className="mb-1" key={key} message={message} />
+            <ChatMessage
+              className="bg-secondary mb-3"
+              key={key}
+              message={message}
+            />
           ))}
         </div>
         <ChatMessageInput

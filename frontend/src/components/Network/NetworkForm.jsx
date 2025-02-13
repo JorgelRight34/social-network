@@ -43,7 +43,10 @@ const NetworkForm = ({
       callback(); // Call the callback after successful submission
     } catch (err) {
       console.error("Error submitting form:", err);
+      return;
     }
+
+    formRef.current.reset();
   };
 
   const handleOnWallpaperChange = (event) => {

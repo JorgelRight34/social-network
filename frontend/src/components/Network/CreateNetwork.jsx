@@ -19,7 +19,7 @@ const CreateNetwork = ({ className = "" }) => {
   return (
     <>
       <RoundedPill className={`border ${className}`} onClick={handleOnClick}>
-        + Create Network
+        + Create network
       </RoundedPill>
       <Dialog show={showDialog} className={"w-50 rounded-3 p-3"}>
         <DialogBody title="+ Create Network" onHide={hideDialog}>

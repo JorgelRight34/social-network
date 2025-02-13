@@ -45,12 +45,12 @@ const Post = ({ className = "", post, showNetwork = false }) => {
             blanditiis, placeat vitae aliquid.
           </div>
           <div className="d-flex align-items-center p-3">
-            <RoundedPill className={"bg-secondary me-3"}>
+            <RoundedPill className={"bg-secondary border me-3"}>
               <span className="material-symbols-outlined">mood</span>
               &nbsp; 0
             </RoundedPill>
             <RoundedPill
-              className="bg-secondary"
+              className="bg-secondary border"
               onClick={() =>
                 navigate(
                   `/post/${post.Network.name}/${post.User.username}/${post.id}`,

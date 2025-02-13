@@ -1,5 +1,5 @@
 import api from "../api";
-import { LOGIN } from "./types"
+import { LOGIN, LOGOUT } from "./types"
 
 
 export const setUser = (payload) => {
@@ -19,4 +19,12 @@ export const loginUser = () => async (dispatch) => {
     }
 
     dispatch(setUser(response.data))
+}
+
+export const logout = () => async (dispatch) => {
+    localStorage.clear();
+
+    dispatch({
+        type: LOGOUT,
+    });
 }

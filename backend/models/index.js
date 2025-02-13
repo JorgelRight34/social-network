@@ -1,4 +1,7 @@
+import Chat from "./chat.js";
+import ChatMember from "./ChatMember.js";
 import Comment from "./comment.js";
+import Message from "./message.js";
 import Network from "./network.js";
 import NetworkAdmin from "./networkAdmin.js";
 import Post from "./post.js";
@@ -20,5 +23,13 @@ Comment.belongsTo(Post, { foreignKey: 'postId' });
 // Network relationships
 NetworkAdmin.belongsTo(Network, { foreignKey: 'networkId' });
 NetworkAdmin.belongsTo(User, { foreignKey: 'userId' });
+
+// Message relationships
+Message.belongsTo(Chat, { foreignKey: 'chatId' });
+Message.belongsTo(ChatMember, { foreignKey: 'senderId' });
+
+// ChatMember relationships
+ChatMember.belongsTo(Chat, { foreignKey: 'chatId' });
+ChatMember.belongsTo(User, { foreignKey: 'userId' });
 
 export { Comment, User, Post }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../api";
 import Network from "./Network";
+import CreateNetwork from "./CreateNetwork";
 
 const NetworksWidget = ({}) => {
   const [networks, setNetworks] = useState([]);
@@ -16,9 +17,15 @@ const NetworksWidget = ({}) => {
 
   return (
     <>
-      {networks.map((network) => (
-        <Network className="mt-3" key={network.id} network={network} />
-      ))}
+      <div className="bg-primary border p-3 rounded-3 shadow-sm">
+        <div className="d-flex align-items-center">
+          <span className="me-auto">Networks</span>
+          <CreateNetwork className="bg-secondary" />
+        </div>
+        {networks.map((network) => (
+          <Network className="mt-3" key={network.id} network={network} />
+        ))}
+      </div>
     </>
   );
 };

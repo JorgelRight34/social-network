@@ -6,6 +6,8 @@ import api from "../api";
 import RepresentationCard from "../components/RepresentationCard";
 import RoundedPill from "../components/RoundedPill";
 import StartChatBtn from "../components/Chat/StartChatBtn";
+import RecentPostsWidget from "../components/Post/RecentPostsWidget";
+import NetworksWidget from "../components/Network/NetworksWidget";
 
 const ProfilePage = ({}) => {
   const location = useLocation();
@@ -34,8 +36,10 @@ const ProfilePage = ({}) => {
     <div>
       <Navbar />
       <div className="row mx-0 d-flex justify-content-center p-lg-3">
-        <div className="col-lg-2"></div>
-        <div className="col-lg-7">
+        <div className="col-lg-3">
+          <NetworksWidget />
+        </div>
+        <div className="col-lg-6">
           <RepresentationCard
             className="rounded-top-3"
             rep={profileUser}
@@ -51,9 +55,7 @@ const ProfilePage = ({}) => {
           </div>
         </div>
         <div className="col-lg-3">
-          <div className="bg-primary border p-3 rounded-3 shadow-sm">
-            Groups
-          </div>
+          <RecentPostsWidget />
         </div>
       </div>
     </div>

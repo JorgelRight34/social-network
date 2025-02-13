@@ -92,6 +92,7 @@ export const userInfo = async (req, res) => {
 
     if (user) {
         return res.json({
+            id: user.id,
             username: user.username, 
             profilePic: user.profilePic, 
             email: user.email

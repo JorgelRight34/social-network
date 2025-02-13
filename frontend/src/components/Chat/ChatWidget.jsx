@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import RoundedPill from "../RoundedPill";
 import ChatCard from "./ChatCard";
 import { useDispatch, useSelector } from "react-redux";
-import SearchUserBar from "./SearchUserBar";
-import { setChats, startChat } from "../../actions/chat";
+import { closeChat, setChats, startChat } from "../../actions/chat";
 import Chat from "./Chat";
 import api from "../../api";
 
@@ -14,12 +13,14 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // running?
     if (currentChat) {
       setCurrentSection("CHAT");
     } else {
       return;
     }
 
+    // returning
     if (show) return;
 
     setShow(true);
@@ -28,8 +29,8 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
   useEffect(() => {
     const fetchChats = async () => {
       const response = await api.get("chats/");
-      console.log("responses", response.data);
-      dispatch(setChats(response.data));
+      dispatch(setChats(response.data)); // Set global state
+
       return response.data;
     };
 
@@ -46,7 +47,13 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
       <div className="d-flex align-items-center p-3 border-bottom">
         <h4 className="me-auto mb-0">Chats</h4>
         <span className={`d-flex flex-column align-items-center p-2`}>
-          <span className="material-symbols-outlined hover" onClick={onHide}>
+          <span
+            className="material-symbols-outlined hover"
+            onClick={() => {
+              onHide();
+              dispatch(closeChat()); // To make start chatBtn work again
+            }}
+          >
             close
           </span>
         </span>
@@ -65,7 +72,6 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
         className={`p-3 ${currentSection === "CHATS" ? "" : "d-none"}`}
         style={{ height: "50vh", overflowY: "auto" }}
       >
-        <SearchUserBar className={"mb-3"} />
         {chats.map((chat, key) => (
           <ChatCard
             chat={chat}

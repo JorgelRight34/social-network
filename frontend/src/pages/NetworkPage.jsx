@@ -7,6 +7,8 @@ import RepresentationCard from "../components/RepresentationCard";
 import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import EditNetworkBtn from "../components/Network/EditNetworkBtn";
+import NetworksWidget from "../components/Network/NetworksWidget";
+import RecentPostsWidget from "../components/Post/RecentPostsWidget";
 
 const NetworkPage = ({}) => {
   const [network, setNetwork] = useState();
@@ -111,10 +113,8 @@ const NetworkPage = ({}) => {
           </div>
         </div>
         <div className="col-lg-3">
-          <div className="bg-primary border p-3 rounded-3 shadow-sm">
-            &nbsp;
-            <CreateBtn network={network} setPosts={setPosts} />
-          </div>
+          {" "}
+          <NetworksWidget />
         </div>
       </div>
     </div>

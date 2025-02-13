@@ -4,7 +4,7 @@ import Username from "./Username";
 import RoundedPill from "./RoundedPill";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-import { loginUser } from "../actions/user";
+import { loginUser, logout } from "../actions/user";
 import SearchBar from "./SearchBar";
 import { mobileWidth } from "../lib/constants";
 import ChatBtn from "./Chat/ChatBtn";
@@ -13,6 +13,11 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   useEffect(() => {
     if (!user) {
@@ -26,13 +31,14 @@ const Navbar = () => {
     <header className="sticky-top shadow-sm">
       <nav className="navbar bg-primary">
         <div className="container d-flex align-items-center px-3">
-          <div className="col-3">
+          <div className="col-3 d-flex align-items-center">
             <a
-              className="navbar-brand text-white hover"
+              className="navbar-brand text-white hover me-5"
               onClick={() => navigate("/")}
             >
               Deep
             </a>
+            <CreateBtn className="bg-secondary" />
           </div>
           <div className="col-6">
             <SearchBar />
@@ -40,8 +46,13 @@ const Navbar = () => {
           <div className="col-3 d-flex align-items-center justify-content-center">
             {user ? (
               <>
-                <CreateBtn className="me-3" />
-                <ChatBtn className="me-3" />
+                <ChatBtn className="bg-secondary me-3" />
+                <RoundedPill
+                  className="bg-secondary border me-3"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </RoundedPill>
                 <span>
                   <Username className="hover" user={user} />
                 </span>
@@ -49,16 +60,16 @@ const Navbar = () => {
             ) : (
               <>
                 <RoundedPill
-                  className="bg-primary border me-3"
+                  className="bg-secondary border me-3"
                   onClick={() => navigate("/login")}
                 >
-                  Log In
+                  Log in
                 </RoundedPill>
                 <RoundedPill
-                  className="bg-primary border"
+                  className="bg-secondary border"
                   onClick={() => navigate("/register")}
                 >
-                  Sign Up
+                  Sign up
                 </RoundedPill>
               </>
             )}

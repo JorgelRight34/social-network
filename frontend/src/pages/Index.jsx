@@ -6,6 +6,7 @@ import CreateNetwork from "../components/Network/CreateNetwork";
 import NetworksWidget from "../components/Network/NetworksWidget";
 import { mobileWidth } from "../lib/constants";
 import NavbarSM from "../components/NavbarSM";
+import RecentPostsWidget from "../components/Post/RecentPostsWidget";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
@@ -44,13 +45,7 @@ const Index = () => {
           </div>
         </div>
         <div className="col-lg-3 d-none d-lg-block">
-          <div className="bg-primary border p-3 rounded-3 shadow-sm">
-            <div className="d-flex align-items-center">
-              <span className="me-auto">Networks</span>
-              <CreateNetwork className="bg-secondary" />
-            </div>
-            <NetworksWidget />
-          </div>
+          <NetworksWidget />
         </div>
       </div>
       {window.innerWidth < mobileWidth ? <NavbarSM /> : ""}
