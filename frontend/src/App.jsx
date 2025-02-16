@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import NetworkPage from "./pages/NetworkPage";
 import SearchResults from "./pages/SearchResults";
 import CreatePage from "./pages/CreatePage";
+import { useEffect } from "react";
 
 function App() {
   return (

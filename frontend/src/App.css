@@ -69,6 +69,10 @@ body {
   animation-name: fadeIn;
 }
 
+.filter-invert {
+  filter: invert(1);
+}
+
 .w-lg-50 {
   width: 50%;
 }
@@ -78,6 +82,20 @@ body {
     width: 100%;
   }
 
+  .chat-widget {
+    height: 100dvh !important;
+    width: 100dvw !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+  }
+
+  .chats-div, .chat  {
+    height: 70dvh !important;
+  }
+
+
   .post, .comment {
     border: 0 solid black !important;
     border-radius: 0 !important;
@@ -85,7 +103,7 @@ body {
 
   .dialog {
     height: 100vh;
-    min-width: 100vw;
+  
   }
 
   .border-sm-bottom {

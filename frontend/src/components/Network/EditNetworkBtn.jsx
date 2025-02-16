@@ -6,7 +6,7 @@ import NetworkForm from "./NetworkForm";
 import api from "../../api";
 import DeleteNetworkBtn from "./DeleteNetworkBtn";
 
-const EditNetworkBtn = ({ network }) => {
+const EditNetworkBtn = ({ network, className = "" }) => {
   const [showDialog, setShowDialog] = useState(false);
   const positionMargin = "0.5rem";
   const backendURI = import.meta.env.VITE_BACKEND_URI;
@@ -18,7 +18,7 @@ const EditNetworkBtn = ({ network }) => {
   return (
     <>
       <RoundedPill
-        className={"position-absolute bg-primary border"}
+        className={`position-absolute bg-primary border ${className}`}
         style={{ right: positionMargin, top: positionMargin }}
         onClick={() => setShowDialog(true)}
       >

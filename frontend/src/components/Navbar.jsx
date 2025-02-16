@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 import { mobileWidth } from "../lib/constants";
 import ChatBtn from "./Chat/ChatBtn";
 
-const Navbar = () => {
+const Navbar = ({ network }) => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,12 +33,21 @@ const Navbar = () => {
         <div className="container d-flex align-items-center px-3">
           <div className="col-3 d-flex align-items-center">
             <a
-              className="navbar-brand text-white hover me-5"
+              className="navbar-brand text-white hover me-5 d-flex align-items-center"
               onClick={() => navigate("/")}
             >
-              Deep
+              <img
+                className="me-2"
+                style={{ height: "1.5rem" }}
+                src="/favicon.png"
+              />
+              My Network
             </a>
-            <CreateBtn className="bg-secondary" />
+            {network ? (
+              <CreateBtn network={network} className="bg-secondary" />
+            ) : (
+              ""
+            )}
           </div>
           <div className="col-6">
             <SearchBar />

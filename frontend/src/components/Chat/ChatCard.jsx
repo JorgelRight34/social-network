@@ -6,7 +6,7 @@ const ChatCard = ({ chat, onClick, className = "" }) => {
       className={`row bg-primary hover rounded-3 border mx-0 ${className}`}
       onClick={onClick}
     >
-      <div className="d-flex justify-content-center align-items-center col-lg-3">
+      <div className="d-flex justify-content-center align-items-center col-3">
         <img
           src={`http://localhost:3000/static/${
             chat?.members?.[0]?.profilePic || "default-profile-pic.jpg"
@@ -23,7 +23,6 @@ const ChatCard = ({ chat, onClick, className = "" }) => {
       </div>
       <div className="col p-2">
         <h6>{chat?.members?.[0]?.username}</h6>
-        {console.log(chat)}
         <p>{chat.lastMessage}</p>
       </div>
     </div>

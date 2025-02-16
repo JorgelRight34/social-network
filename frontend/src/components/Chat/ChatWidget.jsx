@@ -34,14 +34,21 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
       return response.data;
     };
 
+    if (currentSection === "CHATS") {
+      // Fetch again if chats are clicked again
+      fetchChats();
+    }
+
     if (chats?.length === 0) {
       fetchChats();
     }
-  }, []);
+  }, [currentSection]);
 
   return (
     <div
-      className={`bg-secondary ${show ? "" : "d-none"} ${className}`}
+      className={`chat-widget bg-secondary ${
+        show ? "" : "d-none"
+      } ${className}`}
       style={{ minHeight: "75vh", minWidth: "25vw", ...style }}
     >
       <div className="d-flex align-items-center p-3 border-bottom">
@@ -69,7 +76,9 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
       </div>
       {/* Chats */}
       <div
-        className={`p-3 ${currentSection === "CHATS" ? "" : "d-none"}`}
+        className={`chats-div p-3 ${
+          currentSection === "CHATS" ? "" : "d-none"
+        }`}
         style={{ height: "50vh", overflowY: "auto" }}
       >
         {chats.map((chat, key) => (

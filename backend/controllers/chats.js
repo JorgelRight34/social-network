@@ -39,7 +39,6 @@ export const getUserchat = async (req, res) => {
 export const getChat = async (req, res) => {
   try {
     const chatId = req.params.chatId;
-    const userId = req.params.userId;
     const chatMessages = await Message.findAll({
       where: {
         chatId: chatId,

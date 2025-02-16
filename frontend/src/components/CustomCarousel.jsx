@@ -2,8 +2,8 @@ import { Carousel } from "react-bootstrap";
 
 const CustomCarousel = ({ media, size = 10, className = "" }) => {
   const isVideo = (media) => {
-    const imageTypes = ["jpg", "png"];
-    return imageTypes.some((type) => media.endsWith(type));
+    const videoTypes = ["MP3", "MP4", "GIF"];
+    return videoTypes.some((type) => media.toUpperCase().endsWith(type));
   };
 
   const getMediaUrl = (media) => {
@@ -22,18 +22,20 @@ const CustomCarousel = ({ media, size = 10, className = "" }) => {
 
   const renderVideo = (media) => {
     return (
-      <video width="640" height="360" controls>
-        <source src={getMediaUrl(media)} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div className="d-flex justify-content-center">
+        <video width="640" height="360" controls>
+          <source src={getMediaUrl(media)} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     );
   };
 
   return (
     <>
-      {media.length > 0 ? (
+      {media?.length > 0 ? (
         <div className={`bg-black ${className}`}>
-          {media.length > 1 ? (
+          {media?.length > 1 ? (
             <Carousel>
               {media.map((media, key) => (
                 <Carousel.Item key={key}>
@@ -41,8 +43,10 @@ const CustomCarousel = ({ media, size = 10, className = "" }) => {
                 </Carousel.Item>
               ))}
             </Carousel>
+          ) : isVideo(media[0]) ? (
+            renderVideo(media[0])
           ) : (
-            renderImage(media[0])
+            renderImage(media)
           )}
         </div>
       ) : (

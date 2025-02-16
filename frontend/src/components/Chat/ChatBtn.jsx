@@ -2,17 +2,22 @@ import { useState } from "react";
 import RoundedPill from "../RoundedPill";
 import ChatWidget from "./ChatWidget";
 
-const ChatBtn = ({ className }) => {
+const ChatBtn = ({ children, className }) => {
   const [isChatShowing, setIsChatShowing] = useState(false);
 
   return (
     <>
-      <RoundedPill
-        className={`border ${className}`}
-        onClick={() => setIsChatShowing(true)}
-      >
-        <span className="material-symbols-outlined">chat</span>
-      </RoundedPill>
+      {children ? (
+        <div onClick={() => setIsChatShowing((prev) => !prev)}>{children}</div>
+      ) : (
+        <RoundedPill
+          className={`border ${className}`}
+          onClick={() => setIsChatShowing((prev) => !prev)}
+        >
+          <span className="material-symbols-outlined">chat</span>
+        </RoundedPill>
+      )}
+
       <ChatWidget
         show={isChatShowing}
         setShow={setIsChatShowing}

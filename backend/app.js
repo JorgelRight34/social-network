@@ -19,83 +19,92 @@ const server = createServer(app);
 const io = new Server(server);
 
 // Middlewares
-app.use(morgan('dev')); // Logs
-app.use(cors());    // CORS policies
-app.use('/static', express.static(`./${process.env.STATIC_URL}`))
-app.use(express.json());    // Parse body requests to JSON
+app.use(morgan("dev")); // Logs
+app.use(cors()); // CORS policies
+app.use("/static", express.static(`./${process.env.STATIC_URL}`));
+app.use(express.json()); // Parse body requests to JSON
 
 // Routes
-app.use('/', router);
+app.use("/", router);
 
 // Run migrations
-sequelize.sync({ alter: true, logging: false })
-    .then(() => console.log('Database synced'))
-    .catch((err) => console.error('Error syncing database', err));
+sequelize
+  .sync({ alter: true, logging: false })
+  .then(() => console.log("Database synced"))
+  .catch((err) => console.error("Error syncing database", err));
 
-const users = {}
-const usernames = {}
+const users = {};
+const usernames = {};
 // Start socket server
-io.on('connection', (socket) => {
-    socket.on("register", (userId) => {
-        console.log("new user registered", userId)
-        users[userId] = socket.id;
-        usernames[socket.id] = userId;
-    });
+io.on("connection", (socket) => {
+  socket.on("register", (userId) => {
+    console.log("new user registered", userId);
+    users[userId] = socket.id;
+    usernames[socket.id] = userId;
+  });
 
-    socket.on('send-chat-message', async (msg) => {
-        let chat;
-        let chatId = msg.chatId;
-        let senderId = msg.senderUserId;
-        console.log(msg);
-    
-        if (!chatId) {
-            // If new chat then there's not chatId, let's 
-            // create a chat and also the members of it
-            chat = await Chat.create({});   // New chat
+  socket.on("send-chat-message", async (msg) => {
+    let chat;
+    let chatId = msg.chatId;
+    let senderId = msg.senderUserId;
+    console.log(msg);
 
-            // Sender is now a member of chat
-            const sender = await ChatMember.create({
-                userId: msg.senderUserId,
-                chatId: chat.id
-            });
-            senderId = sender.id;
+    if (!chatId) {
+      // If new chat then there's not chatId, let's
+      // create a chat and also the members of it
+      chat = await Chat.create({}); // New chat
 
-            // Receiver is now a member of chat
-            const receiver = await ChatMember.create({
-                userId: msg.receiverUserId,
-                chatId: chat.id
-            });
-        }
-        
-        // Get user
-        const user = await User.findByPk(msg.senderUserId);
+      // Sender is now a member of chat
+      const sender = await ChatMember.create({
+        userId: msg.senderUserId,
+        chatId: chat.id,
+      });
+      senderId = sender.id;
 
-        // Create new message
-        const newMessage = {
-            chatId: msg.chatId || chat.id,
-            senderId: msg.senderId || senderId,
-            content: msg.content,
-        }
+      // Receiver is now a member of chat
+      const receiver = await ChatMember.create({
+        userId: msg.receiverUserId,
+        chatId: chat.id,
+      });
+    }
 
-        console.log("new message", newMessage);
+    // Get user
+    const user = await User.findByPk(msg.senderUserId);
 
-        const message = await Message.create(newMessage);
-        console.log("A message has been created");
+    // Create new message
+    const newMessage = {
+      chatId: msg.chatId || chat.id,
+      senderId: msg.senderId || senderId,
+      content: msg.content,
+    };
 
-        // Emit message to the members
-        console.log("to", users[msg.receiverUserId]);
-        io.to([users[msg.receiverUserId], users[msg.senderUserId]]).emit('chat-message', {...message.dataValues, user});
-    })
+    console.log("new message", newMessage);
 
-    socket.on("disconnect", () => {
-        if (users[usernames?.[socket?.id]]) {
-            delete users[usernames[socket.id]];
-            delete usernames[socket.id];
-        }
-    })
-})
+    const message = await Message.create(newMessage);
+    console.log("A message has been created");
+
+    // Emit message to the members
+    console.log(
+      "to",
+      users[msg.receiverUserId],
+      "and",
+      users[msg.senderUserId]
+    );
+    io.to([users[msg.receiverUserId], users[msg.senderUserId]]).emit(
+      "chat-message",
+      { ...message.dataValues, user }
+    );
+  });
+
+  socket.on("disconnect", () => {
+    if (users[usernames?.[socket?.id]]) {
+      delete users[usernames[socket.id]];
+      delete usernames[socket.id];
+    }
+  });
+});
 
 // Start the server
 server.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}/`);
-})
+  console.log(`Server is running at http://localhost:${PORT}/`);
+});

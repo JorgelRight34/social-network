@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import EditNetworkBtn from "../components/Network/EditNetworkBtn";
 import NetworksWidget from "../components/Network/NetworksWidget";
 import RecentPostsWidget from "../components/Post/RecentPostsWidget";
+import { mobileWidth } from "../lib/constants";
+import NavbarSM from "../components/NavbarSM";
 
 const NetworkPage = ({}) => {
   const [network, setNetwork] = useState();
@@ -94,17 +96,21 @@ const NetworkPage = ({}) => {
 
   return (
     <div>
-      <Navbar />
+      {window.innerWidth > mobileWidth ? <Navbar network={network} /> : ""}
       <div className="row mx-0 d-flex justify-content-center p-lg-3">
         <div className="col-lg-3"></div>
         <div className="col-lg-6">
-          <div className="position-relative">
+          <div className="position-relative mt-3 mt-lg-0 mb-3 mb-lg-0">
             <RepresentationCard
               className="rounded-top-3"
               rep={network}
               title={network?.name}
             />
-            {isAdmin ? <EditNetworkBtn network={network} /> : ""}
+            {isAdmin ? (
+              <EditNetworkBtn className="bg-secondary" network={network} />
+            ) : (
+              ""
+            )}
           </div>
           <div className="bg-primary rounded-3">
             {posts.map((post, key) => (
@@ -112,11 +118,12 @@ const NetworkPage = ({}) => {
             ))}
           </div>
         </div>
-        <div className="col-lg-3">
+        <div className="d-none d-lg-block col-lg-3">
           {" "}
           <NetworksWidget />
         </div>
       </div>
+      {window.innerWidth <= mobileWidth ? <NavbarSM network={network} /> : ""}
     </div>
   );
 };

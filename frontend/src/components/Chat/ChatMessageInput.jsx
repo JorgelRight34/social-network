@@ -15,7 +15,6 @@ const ChatMessageInput = ({
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    console.log("chat", chat);
     const data = {
       senderUserId: user.id,
       receiverUserId: receivers?.[0].id,
@@ -24,7 +23,6 @@ const ChatMessageInput = ({
       content: message,
       chatId: chatId,
     };
-    console.log("emit", data);
     socket.emit("send-chat-message", data);
   };
 

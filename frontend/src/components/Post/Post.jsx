@@ -38,12 +38,7 @@ const Post = ({ className = "", post, showNetwork = false }) => {
         </div>
         <CustomCarousel media={post.media} />
         <div>
-          <div className="p-3">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore
-            ducimus ad, molestiae laborum velit quam nulla alias harum corrupti
-            voluptas, cupiditate reprehenderit deleniti accusamus quas aliquam
-            blanditiis, placeat vitae aliquid.
-          </div>
+          <div className="p-3">{post.body}</div>
           <div className="d-flex align-items-center p-3">
             <RoundedPill className={"bg-secondary border me-3"}>
               <span className="material-symbols-outlined">mood</span>

@@ -22,8 +22,9 @@ const Chat = ({ chat, onHide, style }) => {
     };
 
     if (currentChat?.chatId === currentChat?.chatId) {
-      console.log("connecting");
-      socket.on("chat-message", addMessage);
+      socket.on("chat-message", (msg) => {
+        addMessage(msg);
+      });
       socket.emit("register", user.id);
     }
 
@@ -36,7 +37,6 @@ const Chat = ({ chat, onHide, style }) => {
   useEffect(() => {
     const getMessages = async () => {
       const response = await api.get(`chats/${chat.chatId}`);
-      console.log("messages", response.data);
       return response.data;
     };
 
@@ -57,7 +57,7 @@ const Chat = ({ chat, onHide, style }) => {
           </span>
         </span>
       </div>
-      <div className="d-flex flex-column pt-2" style={style}>
+      <div className="chat d-flex flex-column pt-2" style={style}>
         <div className="mb-auto" style={{ overflowY: "auto" }}>
           {messages?.map((message, key) => (
             <ChatMessage
