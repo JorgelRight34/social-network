@@ -46,7 +46,11 @@ const PostPage = ({}) => {
                     <span>{post.body}</span>
                   </div>
                 </div>
-                <div>
+                <span>
+                  {post.Comments.length} Comment
+                  {post.Comments.length > 1 ? "s" : ""}
+                </span>
+                <div className="border-top pt-3 mt-3">
                   <PostChat post={post} />
                 </div>
               </>
@@ -55,11 +59,7 @@ const PostPage = ({}) => {
             )}
           </div>
         </div>
-        <div className="col-lg-3 d-none d-lg-block">
-          <div className="bg-primary border p-3 rounded-3 shadow-sm">
-            Groups
-          </div>
-        </div>
+        <div className="col-lg-3 d-none d-lg-block"></div>
       </div>
       {window.innerWidth < mobileWidth ? <NavbarSM /> : ""}
     </div>

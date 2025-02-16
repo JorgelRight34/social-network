@@ -73,7 +73,7 @@ const NetworkPage = ({}) => {
     <Layout network={network}>
       <div className="position-relative mt-3 mt-lg-0 mb-3 mb-lg-0">
         <RepresentationCard
-          className="rounded-top-3"
+          className="rounded-top-3 shadow-lg"
           rep={network}
           title={network?.name}
         />
@@ -81,14 +81,17 @@ const NetworkPage = ({}) => {
       <div className="d-flex align-items-center mt-3">
         {isAdmin ? (
           <>
-            <EditNetworkBtn className="me-3 bg-primary" network={network} />
+            <EditNetworkBtn
+              className="me-3 shadow-sm bg-primary"
+              network={network}
+            />
             <ManageJoinRequestsBtn
-              className="bg-primary me-3"
+              className="bg-primary shadow-sm me-3"
               network={network}
             />
           </>
         ) : (
-          <JoinNetwork network={network} className="bg-primary" />
+          <JoinNetwork network={network} className="bg-primary shadow-sm" />
         )}
       </div>
 

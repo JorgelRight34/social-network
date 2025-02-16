@@ -24,6 +24,7 @@ const ChatMessageInput = ({
       chatId: chatId,
     };
     socket.emit("send-chat-message", data);
+    setMessage("");
   };
 
   const handleOnChange = (event) => {

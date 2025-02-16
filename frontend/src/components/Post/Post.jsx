@@ -60,7 +60,8 @@ const Post = ({ className = "", post, showNetwork = false }) => {
               }
             >
               <span className="material-symbols-outlined">chat</span>
-              &nbsp; 0
+              {console.log(post.Comments)}
+              &nbsp; {post.Comments?.length}
             </RoundedPill>
           </div>
         </div>

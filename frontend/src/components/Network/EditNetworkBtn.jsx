@@ -45,7 +45,7 @@ const EditNetworkBtn = ({ network, className = "", style = {} }) => {
           />
           <DeleteNetworkBtn
             callback={() => (window.location = "/")}
-            className="mt-3"
+            className="mt-3 d-flex justify-content-center bg-danger"
             network={network}
           />
         </DialogBody>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const Network = ({ network, className = "" }) => {
   const navigate = useNavigate();
   const imgSize = "55px";
+  const membersCount = +network.memberCount + +network.adminCount;
 
   return (
     <Link
@@ -44,7 +45,7 @@ const Network = ({ network, className = "" }) => {
           {network.description}
         </p>
         <span className="d-flex justify-content-end text-muted">
-          {+network.memberCount + +network.adminCount} members
+          {membersCount} member{membersCount > 1 ? "s" : ""}
         </span>
       </div>
     </Link>

@@ -23,7 +23,7 @@ const CustomCarousel = ({ media, size = 10, className = "" }) => {
   const renderVideo = (media) => {
     return (
       <div className="d-flex justify-content-center">
-        <video width="640" height="360" controls>
+        <video style={{ width: "100%" }} controls>
           <source src={getMediaUrl(media)} type="video/mp4" />
           Your browser does not support the video tag.
         </video>

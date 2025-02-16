@@ -95,7 +95,7 @@ export const getChats = async (req, res) => {
         const lastMessage = await Message.findOne({
           where: { chatId: chat.chatId },
           order: [["createdAt", "DESC"]],
-          attributes: ["content"], // Fetch only the "content" field
+          attributes: ["content", "createdAt"], // Fetch only these fields
         });
 
         return {
@@ -105,7 +105,7 @@ export const getChats = async (req, res) => {
             ...member?.dataValues?.User.dataValues,
             memberId: member.id,
           })),
-          lastMessage: lastMessage ? lastMessage.content : null, // Handle null case
+          lastMessage: lastMessage ? lastMessage.dataValues : null, // Handle null case
         };
       })
     );

@@ -1,9 +1,13 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { getPagination } from "../lib/utils.js";
-import { Post } from "../models/index.js";
+import { Comment, Post } from "../models/index.js";
 import { User } from "../models/index.js";
 import Network from "../models/network.js";
 import Like from "../models/like.js";
+
+const includeClause = {
+  include: [User, Network, Like],
+};
 
 export const createPost = async (req, res) => {
   const { title, body, networkId } = req.body; // Get post data
@@ -91,8 +95,8 @@ export const getPosts = async (req, res) => {
     let posts = await Post.findAll({
       limit,
       offset,
-      include: [User, Network, Like],
-      where: whereClause,
+      whereClause,
+      ...includeClause,
     });
 
     posts = await Promise.all(
@@ -104,6 +108,10 @@ export const getPosts = async (req, res) => {
           email: post.User.email,
           profilePic: post.User.profilePic,
         },
+        Comments: await Comment.findAll({
+          where: { postId: post.id },
+          attributes: ["id"],
+        }),
         ...(req?.user?.userId && {
           hasLiked: await Like.findOne({
             where: {
@@ -144,7 +152,7 @@ export const getNetworkPosts = async (req, res) => {
       where: {
         networkId: network.id,
       },
-      include: [User, Network, Like],
+      ...includeClause,
     });
 
     posts = await Promise.all(
@@ -156,6 +164,10 @@ export const getNetworkPosts = async (req, res) => {
           email: post.User.email,
           profilePic: post.User.profilePic,
         },
+        Comments: await Comment.findAll({
+          where: { postId: post.id },
+          attributes: ["id"],
+        }),
         ...(req?.user?.userId && {
           hasLiked: await Like.findOne({
             where: {
