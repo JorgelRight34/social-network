@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useRef } from "react";
 import Username from "../Username";
 import LikeBtn from "./LikeBtn";
+import { formatDistanceToNow } from "date-fns";
 
 const Post = ({ className = "", post, showNetwork = false }) => {
   const navigate = useNavigate();
@@ -25,10 +26,15 @@ const Post = ({ className = "", post, showNetwork = false }) => {
         <div className="p-3">
           <div className="d-flex align-items-center mb-2">
             <Username
-              className="me-auto"
+              className="me-3"
               network={showNetwork ? post.Network?.name || "" : ""}
               user={post.User}
             />
+            <span className="me-auto text-muted mb-0">
+              {formatDistanceToNow(new Date(post.createdAt), {
+                addSuffix: true,
+              })}
+            </span>
             {post.User?.username == user?.username ? (
               <DeletePostBtn post={post} postRef={postRef} />
             ) : (

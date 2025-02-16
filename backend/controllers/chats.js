@@ -14,7 +14,6 @@ export const getUserchat = async (req, res) => {
 
     const messageSenders = await Promise.all(
       chatMessages.map(async (message) => {
-        console.log(message.ChatMember?.userId);
         return await User.findByPk(message.ChatMember?.userId);
       })
     );

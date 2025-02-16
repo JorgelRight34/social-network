@@ -98,7 +98,7 @@ const SearchResults = () => {
         <SearchBar />
       </div>
       <div className="row mx-0 d-flex justify-content-center p-lg-3">
-        <div className="col-lg-3"></div>
+        <div className="d-none d-lg-block col-lg-1"></div>
         <div className="col-lg-6">
           <div>
             <div className="d-flex p-3">
@@ -198,6 +198,7 @@ const SearchResults = () => {
             <NetworksWidget />
           </div>
         </div>
+        <div className="d-none d-lg-block col-lg-1"></div>
       </div>
       {window.innerWidth < mobileWidth ? <NavbarSM /> : ""}
     </div>

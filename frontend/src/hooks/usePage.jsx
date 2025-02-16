@@ -10,11 +10,11 @@ const usePage = () => {
         return;
       }
 
-      const { scrollTop, scrollHeight } = document.documentElement;
+      const { scrollY, scrollHeight } = document.documentElement;
       const { innerHeight } = window;
 
       // Check if scrolled to the bottom
-      if (scrollTop + innerHeight >= scrollHeight) {
+      if (scrollY + innerHeight >= scrollHeight) {
         setPage((prev) => prev + 1);
       }
     };
@@ -28,7 +28,7 @@ const usePage = () => {
     };
   });
 
-  return [page, setPage, stopFetching];
+  return [page, setPage, stopFetching, setStopFetching];
 };
 
 export default usePage;

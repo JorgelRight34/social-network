@@ -68,11 +68,12 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
       <div className="d-flex p-3">
         <RoundedPill
           onClick={() => setCurrentSection("CHATS")}
-          className="bg-primary border me-3"
+          className={`${
+            currentSection === "CHATS" ? "bg-white text-accent" : "bg-primary"
+          } border me-3`}
         >
           Chats
         </RoundedPill>
-        <RoundedPill className="bg-primary border me-3">Groups</RoundedPill>
       </div>
       {/* Chats */}
       <div

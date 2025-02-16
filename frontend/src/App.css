@@ -1,9 +1,11 @@
+/* Global Variables */
 :root {
   --accent-color: #1c2541;
   --primary-color: #1e1e1e;
   --secondary-color: #2a2a2a;
 }
 
+/* General Layout */
 #root {
   min-height: 100dvh;
   min-width: 100dvw;
@@ -14,6 +16,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Button Styles */
 .btn-accent {
   background-color: var(--accent-color);
   color: #fff;
@@ -25,6 +28,17 @@ body {
   color: var(--accent-color);
 }
 
+.hover-accent:hover {
+  cursor: pointer;
+  background-color: #fff !important;
+  color: var(--accent-color) !important;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+/* Background Colors */
 .bg-primary {
   background-color: var(--primary-color) !important;
   color: #fff !important;
@@ -35,6 +49,38 @@ body {
   color: #fff !important;
 }
 
+/* Text Styles */
+.text-accent {
+  color: var(--accent-color);
+}
+
+.text-muted {
+  color: #fff !important;
+  opacity: 0.7 !important;
+}
+
+/* Width Classes */
+.w-lg-50 {
+  width: 50%;
+}
+
+.w-lg-25 {
+  width: 25%;
+}
+
+/* Animation */
+.post, .network {
+  animation-duration: .6s;
+  animation-fill-mode: backwards;
+  animation-name: fadeIn;
+}
+
+/* Filters */
+.filter-invert {
+  filter: invert(1);
+}
+
+/* Dialog Overlay */
 .dialog-overlay {
   position: fixed;
   display: flex;
@@ -45,41 +91,17 @@ body {
   height: 100dvh;
   width: 100vw;
   background: rgb(0, 0, 0, 0.6);
+  z-index: 999;
 }
 
-.hover-accent:hover {
-  cursor: pointer;
-  background-color: #fff;
-  color: var(--accent-color);
-}
-
-.hover {
-  cursor: pointer;
-}
-
-.post {
-  animation-duration: .6s;
-  animation-fill-mode: backwards;
-  animation-name: fadeIn;
-}
-
-.network {
-  animation-duration: .6s;
-  animation-fill-mode: backwards;
-  animation-name: fadeIn;
-}
-
-.filter-invert {
-  filter: invert(1);
-}
-
-.w-lg-50 {
-  width: 50%;
-}
-
+/* Media Queries */
 @media (max-width: 500px) {
   .w-lg-50 {
     width: 100%;
+  }
+
+  .w-lg-25 {
+    width: auto;
   }
 
   .chat-widget {
@@ -91,10 +113,9 @@ body {
     z-index: 9999 !important;
   }
 
-  .chats-div, .chat  {
+  .chats-div, .chat {
     height: 70dvh !important;
   }
-
 
   .post, .comment {
     border: 0 solid black !important;
@@ -103,7 +124,6 @@ body {
 
   .dialog {
     height: 100vh;
-  
   }
 
   .border-sm-bottom {

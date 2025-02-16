@@ -11,6 +11,8 @@ import NetworksWidget from "../components/Network/NetworksWidget";
 import NavbarSM from "../components/NavbarSM";
 import { mobileWidth } from "../lib/constants";
 import Post from "../components/Post/Post";
+import usePage from "../hooks/usePage";
+import Layout from "../components/Layout";
 
 const ProfilePage = ({}) => {
   const location = useLocation();
@@ -18,16 +20,21 @@ const ProfilePage = ({}) => {
   const [profileUser, setProfileUser] = useState(
     location.state?.profileUser || null
   );
+  const [page, , stopFecthingMore, setStopFetchingMore] = usePage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchUserPosts = async () => {
-      const response = await api.get(`posts/?user=${params.username}`);
+      const response = await api.get(
+        `posts/?user=${params.username}&page=${page}`
+      );
       setPosts((prev) => [...response.data, ...prev]);
     };
 
-    fetchUserPosts().catch((err) => console.log(err));
-  }, []);
+    if (!stopFecthingMore) {
+      fetchUserPosts().catch((err) => console.log(err));
+    }
+  }, [page]);
 
   useEffect(() => {
     getUser(params.username)
@@ -36,39 +43,26 @@ const ProfilePage = ({}) => {
   }, []);
 
   return (
-    <div>
-      {window.innerWidth > mobileWidth ? <Navbar /> : ""}
-      <div className="row mx-0 d-flex justify-content-center p-lg-3">
-        <div className="col-lg-2"></div>
-        <div className="col-lg-7 p-0 px-lg-5">
-          <RepresentationCard
-            className="rounded-top-3"
-            rep={profileUser}
-            title={profileUser?.username}
-          />
-          <div className="bg-primary p-3 rounded-botom-3 mb-3 mb-lg-0">
-            <div className="d-flex p-3">
-              <StartChatBtn user={profileUser} className="me-3" />
-              <RoundedPill className="border bg-secondary me-3">
-                Posts
-              </RoundedPill>
-            </div>
-          </div>
-          {posts.map((post, key) => (
-            <Post
-              key={`${post.id}-${key}`}
-              className="mb-3"
-              post={post}
-              showNetwork={true}
-            />
-          ))}
-        </div>
-        <div className="d-none d-lg-block col-lg-3">
-          <NetworksWidget />
-        </div>
+    <Layout>
+      <RepresentationCard
+        className="rounded-top-3"
+        rep={profileUser}
+        title={profileUser?.username}
+        noWallpaper={true}
+      />
+      <div className="d-flex mt-3 mb-3">
+        <StartChatBtn user={profileUser} className="me-3" />
+        <RoundedPill className="border bg-secondary me-3">Posts</RoundedPill>
       </div>
-      {window.innerWidth <= mobileWidth ? <NavbarSM /> : ""}
-    </div>
+      {posts.map((post, key) => (
+        <Post
+          key={`${post.id}-${key}`}
+          className="mb-3"
+          post={post}
+          showNetwork={true}
+        />
+      ))}
+    </Layout>
   );
 };
 

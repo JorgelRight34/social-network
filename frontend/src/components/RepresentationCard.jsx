@@ -1,18 +1,28 @@
-const RepresentationCard = ({ rep, size = 70, className = "", title = "" }) => {
+const RepresentationCard = ({
+  rep,
+  size = 70,
+  className = "",
+  title = "",
+  noWallpaper = false,
+}) => {
   const imgSize = `${size}px`;
 
   return (
     <>
       <div
         className={`position-relative w-100 p-5 ${className}`}
-        style={{
-          backgroundImage: `url(${
-            rep?.wallpaper
-              ? `http://localhost:3000/static/${rep?.wallpaper}`
-              : "https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg"
-          })`,
-          objectFit: "cover",
-        }}
+        style={
+          noWallpaper
+            ? {}
+            : {
+                backgroundImage: `url(${
+                  rep?.wallpaper
+                    ? `http://localhost:3000/static/${rep?.wallpaper}`
+                    : "https://community.softr.io/uploads/db9110/original/2X/7/74e6e7e382d0ff5d7773ca9a87e6f6f8817a68a6.jpeg"
+                })`,
+                objectFit: "cover",
+              }
+        }
       >
         <div
           className="d-flex align-items-center position-absolute p-3"

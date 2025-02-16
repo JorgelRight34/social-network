@@ -29,9 +29,9 @@ const Navbar = ({ network }) => {
 
   return (
     <header className="sticky-top shadow-sm">
-      <nav className="navbar bg-primary">
-        <div className="container d-flex align-items-center px-3">
-          <div className="col-3 d-flex align-items-center">
+      <nav className="bg-primary px-0">
+        <div className="p-2 px-5 d-flex align-items-center p-0 w-100">
+          <div className="col-3 d-flex align-items-center px-3">
             <a
               className="navbar-brand text-white hover me-5 d-flex align-items-center"
               onClick={() => navigate("/")}
@@ -39,9 +39,9 @@ const Navbar = ({ network }) => {
               <img
                 className="me-2"
                 style={{ height: "1.5rem" }}
-                src="/favicon.png"
+                src="/favicon.ico"
               />
-              My Network
+              <h5 className="mb-0">My Network</h5>
             </a>
             {network ? (
               <CreateBtn network={network} className="bg-secondary" />
@@ -55,14 +55,15 @@ const Navbar = ({ network }) => {
           <div className="col-3 d-flex align-items-center justify-content-center">
             {user ? (
               <>
-                <ChatBtn className="bg-secondary me-3" />
+                <ChatBtn className="bg-secondary me-3 ms-3" />
                 <RoundedPill
-                  className="bg-secondary border me-3"
+                  className="bg-secondary border me-3 d-flex align-items-center"
                   onClick={handleLogout}
                 >
+                  <span className="material-symbols-outlined me-1">logout</span>
                   Log out
                 </RoundedPill>
-                <span>
+                <span className="rounded-pill border p-1 px-3 bg-secondary">
                   <Username className="hover" user={user} />
                 </span>
               </>

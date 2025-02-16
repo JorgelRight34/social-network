@@ -6,9 +6,8 @@ import NetworkForm from "./NetworkForm";
 import api from "../../api";
 import DeleteNetworkBtn from "./DeleteNetworkBtn";
 
-const EditNetworkBtn = ({ network, className = "" }) => {
+const EditNetworkBtn = ({ network, className = "", style = {} }) => {
   const [showDialog, setShowDialog] = useState(false);
-  const positionMargin = "0.5rem";
   const backendURI = import.meta.env.VITE_BACKEND_URI;
 
   const hideDialog = () => {
@@ -18,14 +17,14 @@ const EditNetworkBtn = ({ network, className = "" }) => {
   return (
     <>
       <RoundedPill
-        className={`position-absolute bg-primary border ${className}`}
-        style={{ right: positionMargin, top: positionMargin }}
+        className={`bg-primary border ${className}`}
         onClick={() => setShowDialog(true)}
+        style={style}
       >
-        Edit Network
+        Edit network
       </RoundedPill>
       <Dialog show={showDialog} className={"w-50 rounded-3 p-3"}>
-        <DialogBody title="+ Create Network" onHide={hideDialog}>
+        <DialogBody title="+ Edit network" onHide={hideDialog}>
           <NetworkForm
             fetchData={(data) => api.put("networks/", data)}
             method="put"

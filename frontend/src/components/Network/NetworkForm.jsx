@@ -17,7 +17,7 @@ const NetworkForm = ({
   const [files, setFiles] = useState({});
   const wallpaperInputRef = useRef();
   const wallpaperRef = useRef();
-  const defaultWallpaperUrl = `https://t4.ftcdn.net/jpg/07/22/55/05/360_F_722550509_HcSl2uXlToZd88q8OKGCtoO1LW5d8x8B.jpg`;
+  const defaultWallpaperUrl = `https://community.softr.io/uploads/db9110/original/2X/7/74e6e7e382d0ff5d7773ca9a87e6f6f8817a68a6.jpeg`;
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -47,6 +47,7 @@ const NetworkForm = ({
     }
 
     formRef.current.reset();
+    window.location.reload();
   };
 
   const handleOnWallpaperChange = (event) => {
@@ -101,7 +102,7 @@ const NetworkForm = ({
               size="70px"
               fileKey={"profilePic"}
               setFiles={setFiles}
-              className="rounded-circle"
+              className="rounded-circle shadow-lg"
               defaultImageUrl={defaultFormData?.profilePic}
             />
           </div>
@@ -115,12 +116,14 @@ const NetworkForm = ({
           required
         />
 
-        <input
+        <textarea
           className="form-control mb-5 mb-lg-3"
           name="description"
           placeholder="Description"
           value={formData.description}
           onChange={setFormData}
+          rows={2}
+          maxLength={255}
           required
         />
 

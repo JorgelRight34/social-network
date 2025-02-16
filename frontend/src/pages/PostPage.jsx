@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/user";
 import { mobileWidth } from "../lib/constants";
 import NavbarSM from "../components/NavbarSM";
+import { formatDistanceToNow } from "date-fns";
 
 const PostPage = ({}) => {
   const location = useLocation();
@@ -25,10 +26,15 @@ const PostPage = ({}) => {
             {post ? (
               <>
                 <div className="post border border-sm-bottom rounded-3 shadow-sm mb-4">
-                  <div className="d-flex align-items-center mb-3 p-3">
-                    <Username user={post.User} />
-                    <h6 className="ms-auto mb-0">{post.title}</h6>
+                  <div className="d-flex align-items-center p-3">
+                    <Username className="me-3" user={post.User} />
+                    <span className="me-auto text-muted mb-0">
+                      {formatDistanceToNow(new Date(post.createdAt), {
+                        addSuffix: true,
+                      })}
+                    </span>
                   </div>
+                  <h6 className="ms-auto mb-3 px-3">{post.title}</h6>
                   <div className="mb-3">
                     <CustomCarousel
                       className="rounded"

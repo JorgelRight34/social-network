@@ -19,7 +19,7 @@ const CreateBtn = ({ network, setPosts, className = "" }) => {
         + Create post
       </div>
       <Dialog className={"p-lg-3 w-50 rounded-3"} show={isDialogShowing}>
-        <DialogBody title="Create Post" onHide={hideDialog}>
+        <DialogBody title="+ Create post" onHide={hideDialog}>
           <NewPostForm
             network={network}
             setPosts={setPosts}

@@ -24,6 +24,7 @@ const NewPostForm = ({ network, callback, setPosts }) => {
     callback();
     setPosts((prev) => [response.data, ...prev]);
     formRef.current.reset(); // Reset form
+    window.location.reload();
   };
 
   return (

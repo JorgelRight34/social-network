@@ -15,7 +15,7 @@ const SearchBar = () => {
       <input
         className="form-control rounded-pill"
         name="q"
-        placeholder="Search on Deep"
+        placeholder="Search anything"
         value={formData?.q}
         onChange={setFormData}
       />

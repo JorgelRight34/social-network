@@ -22,7 +22,7 @@ const CreateNetwork = ({ className = "" }) => {
         + Create network
       </RoundedPill>
       <Dialog show={showDialog} className={"w-50 rounded-3 p-3"}>
-        <DialogBody title="+ Create Network" onHide={hideDialog}>
+        <DialogBody title="+ Create network" onHide={hideDialog}>
           <NetworkForm
             callback={hideDialog}
             fetchData={(data) => api.post("networks/", data)}

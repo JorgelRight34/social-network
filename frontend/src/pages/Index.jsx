@@ -1,59 +1,51 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import Navbar from "../components/Navbar";
 import Post from "../components/Post/Post";
-import CreateNetwork from "../components/Network/CreateNetwork";
-import NetworksWidget from "../components/Network/NetworksWidget";
-import { mobileWidth } from "../lib/constants";
-import NavbarSM from "../components/NavbarSM";
-import RecentPostsWidget from "../components/Post/RecentPostsWidget";
 import usePage from "../hooks/usePage";
+import Layout from "../components/Layout";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
-  const [page, setPage, stopFetching] = usePage();
+  const [page, , stopFetching, setStopFetching] = usePage();
 
   useEffect(() => {
     const getPosts = async () => {
       let response;
       try {
-        response = await api.get("posts/");
+        response = await api.get(`posts/?page=${page}`);
       } catch (err) {
         console.log(err);
         return;
       }
 
+      if (response.data?.length === 0) {
+        setStopFetching(true);
+      }
+
+      // Append posts
       setPosts((prev) => [...prev, ...response.data]);
     };
 
     if (!stopFetching) {
+      // If hasn't reached a page with no new posts then try
+      // to fetch again new posts
       getPosts();
     }
   }, [page]);
 
   return (
-    <div className="position-relative">
-      <Navbar />
-      <div className="row mx-0 d-flex justify-content-center p-0 p-lg-3">
-        <div className="col-lg-2"></div>
-        <div className="col-lg-7 p-0 px-lg-5">
-          <div className="rounded-3 p-0 px-lg-3">
-            {posts.map((post, key) => (
-              <Post
-                key={`${post.id}-${key}`}
-                className="mb-3"
-                post={post}
-                showNetwork={true}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="col-lg-3 d-none d-lg-block">
-          <NetworksWidget />
-        </div>
+    <Layout>
+      <div className="rounded-3 p-0">
+        {posts.map((post, key) => (
+          <Post
+            key={`${post.id}-${key}`}
+            className="mb-3"
+            post={post}
+            showNetwork={true}
+          />
+        ))}
       </div>
-      {window.innerWidth <= mobileWidth ? <NavbarSM /> : ""}
-    </div>
+    </Layout>
   );
 };
 

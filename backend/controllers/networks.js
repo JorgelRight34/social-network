@@ -1,23 +1,50 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { getPagination } from "../lib/utils.js";
 import Network from "../models/network.js";
 import NetworkAdmin from "../models/networkAdmin.js";
 import User from "../models/user.js";
+import NetworkMember from "../models/networkMember.js";
+import JoinNetworkRequest from "../models/joinNetworkRequest.js";
+
+const includeMembers = {
+  include: [
+    {
+      model: NetworkMember, // Assuming `NetworkMember` is the related model
+      attributes: [], // No need to return full objects, just count them
+    },
+    {
+      model: NetworkAdmin, // Assuming `NetworkMember` is the related model
+      attributes: [], // No need to return full objects, just count them
+    },
+  ],
+  attributes: {
+    include: [
+      [Sequelize.fn("COUNT", Sequelize.col("NetworkAdmins.id")), "adminCount"],
+      [
+        Sequelize.fn("COUNT", Sequelize.col("NetworkMembers.id")),
+        "memberCount",
+      ],
+    ],
+  },
+  group: ["Network.id"], // Important: Groups results by Network to count correctly
+  subQuery: false, // Ensures the count is applied to the main query, not a subquery
+};
 
 export const createNetwork = async (req, res) => {
   const { name, description } = req.body;
-  console.log("name and description", name, description);
   let network;
   let networkAdmin;
 
   if (!name || !description) {
+    // Avoid empty fields
     return res.status(400).send("Please fill all the fields.");
   }
 
   try {
+    // Try to create a network
     network = await Network.create({
-      name: name.trim(),
-      description: description.trim(),
+      name: name.trim(), // Avoid extra spaces
+      description: description.trim(), // Avoid extra spaces
       userId: req.user?.userId,
       profilePic: req.files.profilePic?.[0]?.filename || "",
       wallpaper: req.files.wallpaper?.[0]?.filename || "",
@@ -30,6 +57,7 @@ export const createNetwork = async (req, res) => {
   }
 
   try {
+    // Create an admin for this user
     networkAdmin = await NetworkAdmin.create({
       userId: req.user?.userId,
       networkId: network.id,
@@ -82,13 +110,15 @@ export const getNetwork = async (req, res) => {
       where: {
         name: networkName,
       },
+      ...includeMembers,
     });
 
     if (!network) {
-      console.log("there's not such a network");
+      // Avoid no networks
       return res.status(404);
     }
 
+    // Find network admins
     const networkAdmins = await NetworkAdmin.findAll({
       where: {
         networkId: network.id,
@@ -119,6 +149,7 @@ export const getNetworks = async (req, res) => {
           [Op.like]: `%${q || ""}%`,
         },
       },
+      ...includeMembers,
     });
 
     return res.json({
@@ -177,6 +208,108 @@ export const updateNetwork = async (req, res) => {
     await network.update(data);
 
     return res.json(network);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("An error has ocurred.");
+  }
+};
+
+export const createNetworkMember = async (req, res) => {
+  try {
+    const { networkId } = req.body;
+
+    const networkMember = await NetworkMember({
+      userId: req.user?.userId,
+      networkId: networkId,
+    });
+
+    return res.json(networkMember);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("An error has ocurred.");
+  }
+};
+
+export const createJoinNetworkRequest = async (req, res) => {
+  try {
+    const { networkId } = req.body;
+
+    const joinNetworkRequest = await JoinNetworkRequest.create({
+      userId: req.user?.userId,
+      networkId: networkId,
+    });
+
+    return res.json(joinNetworkRequest);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("An error has ocurred.");
+  }
+};
+
+export const getJoinNetworkRequests = async (req, res) => {
+  try {
+    const joinNetworkRequests = await JoinNetworkRequest.findAll({
+      where: {
+        userId: req.user?.userId,
+      },
+    });
+
+    return res.json(joinNetworkRequests);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("An error has ocurred.");
+  }
+};
+
+export const getReceivedJoinNetworkRequests = async (req, res) => {
+  try {
+    const { networkId } = req.params;
+
+    const joinNetworkRequests = await JoinNetworkRequest.findAll({
+      where: {
+        networkId: networkId,
+      },
+      include: {
+        model: User,
+        attributes: ["username", "profilePic", "email"],
+      },
+    });
+
+    return res.json(joinNetworkRequests);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("An error has ocurred.");
+  }
+};
+
+export const acceptJoinNetworkRequest = async (req, res) => {
+  try {
+    const { joinRequestId } = req.body;
+
+    // Get join request
+    const joinRequest = await JoinNetworkRequest.findByPk(joinRequestId);
+
+    // Check if user is not a member already
+    const isMember = await NetworkMember.findOne({
+      where: {
+        userId: joinRequest.userId,
+        networkId: joinRequest.networkId,
+      },
+    });
+
+    if (isMember) {
+      return res.status(400).send("Already a member");
+    }
+
+    // Create new member for the requesting user
+    const member = await NetworkMember.create({
+      userId: joinRequest.userId,
+      networkId: joinRequest.networkId,
+    });
+
+    joinRequest.destroy(); // Destroy request
+
+    return res.json(member);
   } catch (err) {
     console.error(err);
     return res.status(500).send("An error has ocurred.");

@@ -58,24 +58,26 @@ const Chat = ({ chat, onHide, style }) => {
         </span>
       </div>
       <div className="chat d-flex flex-column pt-2" style={style}>
-        <div className="mb-auto" style={{ overflowY: "auto" }}>
+        <div className="mb-auto px-3" style={{ overflowY: "auto" }}>
           {messages?.map((message, key) => (
             <ChatMessage
-              className="bg-secondary mb-3"
+              className="bg-secondary mb-3 shadow-sm"
               key={key}
               message={message}
             />
           ))}
         </div>
-        <ChatMessageInput
-          chat={chat}
-          chatId={messages[0]?.chatId}
-          receivers={chat?.members}
-          sender={user}
-          className={"sticky-bottom mt-auto"}
-          setMessages={setMessages}
-          style={{ marginTop: "auto" }}
-        />
+        <div className="pt-3">
+          <ChatMessageInput
+            chat={chat}
+            chatId={messages[0]?.chatId}
+            receivers={chat?.members}
+            sender={user}
+            className={"sticky-bottom mt-auto"}
+            setMessages={setMessages}
+            style={{ marginTop: "auto" }}
+          />
+        </div>
       </div>
     </>
   );

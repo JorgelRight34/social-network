@@ -71,7 +71,6 @@ export const getPosts = async (req, res) => {
     const { limit, offset } = getPagination(page, size);
     let user;
 
-    console.log(req.user);
     if (username) {
       user = await User.findOne({ where: { username: username } });
       if (!user) {

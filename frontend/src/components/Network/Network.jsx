@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Network = ({ network, className = "" }) => {
   const navigate = useNavigate();
-  const imgSize = "50px";
+  const imgSize = "55px";
 
   return (
     <Link
@@ -13,14 +13,20 @@ const Network = ({ network, className = "" }) => {
         e.preventDefault();
         window.location.href = `/network/${network.name}`;
       }}
-      className={`row bg-secondary hover border text-decoration-none rounded-3 mx-0 ${className}`}
+      className={`bg-secondary hover text-decoration-none rounded-3 mx-0`}
     >
-      <div className="col-lg-3 d-flex align-items-center justify-content-center">
+      <div
+        className={`p-2 d-flex justify-content-center rounded-top border mt-3 ${className}`}
+        style={{
+          backgroundImage: `url(http://localhost:3000/static/${network.wallpaper})`,
+          objectFit: "cover",
+        }}
+      >
         <img
           src={`http://localhost:3000/static/${
             network.profilePic || "default-profile-pic.jpg"
           }`}
-          className="me-2 rounded-circle"
+          className="me-2 rounded-circle shadow-lg"
           style={{
             height: imgSize,
             width: imgSize, // Fixed typo here (was "widht")
@@ -30,11 +36,16 @@ const Network = ({ network, className = "" }) => {
           }}
         />
       </div>
-      <div className="col-lg-9 p-2">
+      <div className="p-2 border rounded-bottom">
         <div className="mb-2">
           <h6>{network.name}</h6>
         </div>
-        <p>{network.description}</p>
+        <p className="text-truncate mb-2" title={network.description}>
+          {network.description}
+        </p>
+        <span className="d-flex justify-content-end text-muted">
+          {+network.memberCount + +network.adminCount} members
+        </span>
       </div>
     </Link>
   );
