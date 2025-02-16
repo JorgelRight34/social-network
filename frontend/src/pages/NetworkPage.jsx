@@ -98,8 +98,8 @@ const NetworkPage = ({}) => {
     <div>
       {window.innerWidth > mobileWidth ? <Navbar network={network} /> : ""}
       <div className="row mx-0 d-flex justify-content-center p-lg-3">
-        <div className="col-lg-3"></div>
-        <div className="col-lg-6">
+        <div className="col-lg-2"></div>
+        <div className="col-lg-7 p-0 px-lg-5">
           <div className="position-relative mt-3 mt-lg-0 mb-3 mb-lg-0">
             <RepresentationCard
               className="rounded-top-3"

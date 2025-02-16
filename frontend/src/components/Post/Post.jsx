@@ -5,6 +5,7 @@ import CustomCarousel from "../CustomCarousel";
 import { useNavigate } from "react-router";
 import { useRef } from "react";
 import Username from "../Username";
+import LikeBtn from "./LikeBtn";
 
 const Post = ({ className = "", post, showNetwork = false }) => {
   const navigate = useNavigate();
@@ -40,10 +41,7 @@ const Post = ({ className = "", post, showNetwork = false }) => {
         <div>
           <div className="p-3">{post.body}</div>
           <div className="d-flex align-items-center p-3">
-            <RoundedPill className={"bg-secondary border me-3"}>
-              <span className="material-symbols-outlined">mood</span>
-              &nbsp; 0
-            </RoundedPill>
+            <LikeBtn post={post} />
             <RoundedPill
               className="bg-secondary border"
               onClick={() =>

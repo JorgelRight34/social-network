@@ -35,8 +35,8 @@ const Index = () => {
     <div className="position-relative">
       <Navbar />
       <div className="row mx-0 d-flex justify-content-center p-0 p-lg-3">
-        <div className="col-lg-3"></div>
-        <div className="col-lg-6 p-0">
+        <div className="col-lg-2"></div>
+        <div className="col-lg-7 p-0 px-lg-5">
           <div className="rounded-3 p-0 px-lg-3">
             {posts.map((post, key) => (
               <Post

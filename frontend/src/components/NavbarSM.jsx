@@ -42,17 +42,17 @@ const NavbarSM = ({ network }) => {
             <span className="material-symbols-outlined mb-1">add</span>
           </span>
         </div>
-        <div className="col p-0 d-flex flex-column justify-content-center hover">
-          {user ? (
+        {user ? (
+          <div className="col p-0 d-flex flex-column justify-content-center hover">
             <ChatBtn>
               <span className={`d-flex flex-column align-items-center p-2`}>
                 <span className="material-symbols-outlined mb-1">chat</span>
               </span>
             </ChatBtn>
-          ) : (
-            ""
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <Dialog
         className={`rounded-3`}

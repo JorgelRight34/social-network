@@ -9,10 +9,10 @@ dotenv.config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-export const authenticate = async (req, res, next) => {
+export const authenticate = async (req, res, next, allowAny = false) => {
   // Get token
   const token = req.headers.authorization?.split(" ")[1];
-  if (!token) {
+  if (!token && !allowAny) {
     return res.status(400).send("Access denied.");
   }
 
@@ -21,7 +21,9 @@ export const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
   } catch (err) {
-    return res.status(400).send("Invalid token.");
+    if (!allowAny) {
+      return res.status(400).send("Invalid token.");
+    }
   }
 
   next();
