@@ -17,6 +17,7 @@ export const createPost = async (req, res) => {
     return res.status(400).send("Please fill all the fields");
   }
 
+  // Create post belonging to user and to network
   let post = await Post.create({
     userId: req.user.userId,
     networkId: networkId,
@@ -25,6 +26,7 @@ export const createPost = async (req, res) => {
     media: req.files.map((file) => file.filename),
   });
 
+  // Find post and include user
   post = await Post.findOne({
     where: {
       id: post.id,
