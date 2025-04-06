@@ -1,51 +1,10 @@
-import { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import ChatMessageInput from "./ChatMessageInput";
-import socket from "../../socket";
 import Username from "../Username";
-import { useDispatch, useSelector } from "react-redux";
-import api from "../../api";
+import useChat from "../../hooks/useChat";
 
 const Chat = ({ chat, onHide, style }) => {
-  const [messages, setMessages] = useState([]);
-  const { user } = useSelector((state) => state.user);
-  const { currentChat } = useSelector((state) => state.chats);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-    }
-
-    const addMessage = (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    };
-
-    if (currentChat?.chatId === currentChat?.chatId) {
-      socket.on("chat-message", (msg) => {
-        addMessage(msg);
-      });
-      socket.emit("register", user.id);
-    }
-
-    return () => {
-      socket.off("chat-message", addMessage);
-      socket.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      const response = await api.get(`chats/${chat.chatId}`);
-      return response.data;
-    };
-
-    setMessages([]); // Clear to avoid showing foreign messages
-
-    if (chat?.chatId) {
-      getMessages().then(setMessages);
-    }
-  }, [chat]);
+  const { messages } = useChat(chat);
 
   return (
     <>

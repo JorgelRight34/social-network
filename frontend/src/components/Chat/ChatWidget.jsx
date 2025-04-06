@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import RoundedPill from "../RoundedPill";
 import ChatCard from "./ChatCard";
 import { useDispatch, useSelector } from "react-redux";
-import { closeChat, setChats, startChat } from "../../actions/chat";
+import { closeChat, startChat } from "../../actions/chat";
 import Chat from "./Chat";
-import api from "../../api";
+import useChats from "../../hooks/useChats";
 
 const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
   const [currentSection, setCurrentSection] = useState("CHATS");
   const { currentChat, chats } = useSelector((state) => state.chats);
-  const { user } = useSelector((state) => state.user);
+  const { getChats } = useChats;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,20 +27,9 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
   }, [currentChat]);
 
   useEffect(() => {
-    const fetchChats = async () => {
-      const response = await api.get("chats/");
-      dispatch(setChats(response.data)); // Set global state
-
-      return response.data;
-    };
-
-    if (currentSection === "CHATS") {
+    if (currentSection === "CHATS" || chats?.length === 0) {
       // Fetch again if chats are clicked again
-      fetchChats();
-    }
-
-    if (chats?.length === 0) {
-      fetchChats();
+      getChats();
     }
   }, [currentSection]);
 
@@ -82,7 +71,7 @@ const ChatWidget = ({ show, setShow, onHide, className = "", style = {} }) => {
         }`}
         style={{ height: "50vh", overflowY: "auto" }}
       >
-        {chats.map((chat, key) => (
+        {chats.map((chat) => (
           <ChatCard
             chat={chat}
             className="mb-3 shadow-sm"

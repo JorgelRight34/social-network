@@ -1,6 +1,4 @@
-import { useState } from "react";
-import socket from "../../socket";
-import { useSelector } from "react-redux";
+import usePostChatMessage from "../../hooks/usePostChatMessage";
 
 const ChatMessageInput = ({
   chat,
@@ -8,23 +6,12 @@ const ChatMessageInput = ({
   receivers,
   className,
   style,
-  setMessages,
 }) => {
-  const [message, setMessage] = useState("");
-  const { user } = useSelector((state) => state.user);
+  const { message, setMessage, onSubmit } = usePostChatMessage(chat);
 
-  const handleOnSubmit = (event) => {
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
-    const data = {
-      senderUserId: user.id,
-      receiverUserId: receivers?.[0].id,
-      senderId: chat?.senderId,
-      receiverId: receivers?.[0].userId,
-      content: message,
-      chatId: chatId,
-    };
-    socket.emit("send-chat-message", data);
-    setMessage("");
+    await onSubmit(receivers, chatId);
   };
 
   const handleOnChange = (event) => {

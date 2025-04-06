@@ -12,7 +12,6 @@ const ManageJoinRequestsBtn = ({ network, className = "" }) => {
   useEffect(() => {
     const getJoinRequests = async () => {
       const response = await api.get(`networks/${network?.id}/join-request`);
-      console.log(response.data);
       return response.data;
     };
 

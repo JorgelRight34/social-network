@@ -12,10 +12,9 @@ const JoinNetwork = ({ network, className = "" }) => {
     }
 
     try {
-      const response = await api.post("networks/join-request", {
+      await api.post("networks/join-request", {
         networkId: network.id,
       });
-      console.log("repsonse", response.data);
       setHasSentRequest(true);
     } catch (err) {
       console.error(err);
