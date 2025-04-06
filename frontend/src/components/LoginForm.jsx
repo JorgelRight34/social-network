@@ -1,34 +1,17 @@
-import api from "../api";
-import useFormData from "../hooks/useFormData";
 import { useNavigate } from "react-router";
+import useLogin from "../hooks/useAuth";
 
-const LoginForm = ({}) => {
-  const [formData, handleOnBlur] = useFormData();
+const LoginForm = () => {
+  const { login, handleOnBlur } = useLogin();
   const navigate = useNavigate();
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-
-    const response = await api
-      .post(
-        "users/login",
-        {
-          username: formData.username.replace(" ", ""),
-          password: formData.password.replace(" ", ""),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err);
-      });
-
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+    const result = await login();
+    if (!result) {
+      alert("Invalid username or password.");
+      return;
+    }
     navigate("/");
   };
 

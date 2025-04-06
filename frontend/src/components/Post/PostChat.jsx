@@ -1,45 +1,20 @@
-import { useEffect, useState } from "react";
-import api from "../../api";
-import useFormData from "../../hooks/useFormData";
+import { useEffect } from "react";
 import PostComment from "./PostComment";
 import Username from "../Username";
 import { useSelector } from "react-redux";
+import useComments from "../../hooks/useComments";
 
 const PostChat = ({ post }) => {
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
+  const { comment, comments, setComment, getComments, handlePostComment } =
+    useComments();
   const { user } = useSelector((state) => state.user);
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    let response;
-
-    try {
-      response = await api.post("comments/", {
-        content: comment,
-        postId: post.id,
-      });
-    } catch (err) {
-      console.log(error);
-      return;
-    }
-
-    setComments((prev) => [response.data, ...prev]);
-    setComment("");
+    await handlePostComment(post.id);
   };
 
   useEffect(() => {
-    const getComments = async () => {
-      let response;
-      try {
-        response = await api.get(`comments/${post.id}`);
-      } catch (err) {
-        console.log(err);
-        return;
-      }
-      setComments(response.data);
-    };
-
     getComments();
   }, []);
 

@@ -1,30 +1,17 @@
-import api from "../api";
-import { LOGIN, LOGOUT } from "./types"
-
+import { LOGIN, LOGOUT } from "./types";
 
 export const setUser = (payload) => {
-    return {
-        type: LOGIN,
-        payload: payload
-    }
-}
-
-export const loginUser = () => async (dispatch) => {
-    let response;
-    try {
-        response = await api.get('users/');
-    } catch (err) {
-        console.log(err);
-        return
-    }
-
-    dispatch(setUser(response.data))
-}
+  return {
+    type: LOGIN,
+    payload: payload,
+  };
+};
 
 export const logout = () => async (dispatch) => {
-    localStorage.clear();
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
 
-    dispatch({
-        type: LOGOUT,
-    });
-}
+  dispatch({
+    type: LOGOUT,
+  });
+};

@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CreateBtn from "./CreateBtn";
-import Post from "./Post";
-import api from "../../api";
 import CustomCarousel from "../CustomCarousel";
 import Username from "../Username";
+import usePosts from "../../hooks/usePosts";
 
-const RecentPostsWidget = ({}) => {
-  const [posts, setPosts] = useState([]);
+const RecentPostsWidget = () => {
+  const [posts, getPosts] = usePosts();
 
   useEffect(() => {
-    const getPosts = async () => {
-      let response;
-      try {
-        response = await api.get(`posts/?page=1?limit=4`);
-      } catch (err) {
-        console.log(err);
-        return;
-      }
-
-      setPosts((prev) => [...prev, ...response.data]);
-    };
-
     if (posts.length === 0) {
-      getPosts();
+      getPosts(1, 4);
     }
   }, []);
 
@@ -35,6 +22,7 @@ const RecentPostsWidget = ({}) => {
         </div>
         {posts.map((post) => (
           <div
+            key={post.id}
             className={`row bg-secondary hover border rounded-3 mx-0 mt-3 p-2`}
           >
             <div className="">

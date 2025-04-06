@@ -1,28 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
 import CreateBtn from "./Post/CreateBtn";
 import Username from "./Username";
 import RoundedPill from "./RoundedPill";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-import { loginUser, logout } from "../actions/user";
 import SearchBar from "./SearchBar";
 import { mobileWidth } from "../lib/constants";
 import ChatBtn from "./Chat/ChatBtn";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = ({ network }) => {
-  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { user, handleLogout, loadUser } = useAuth();
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleUserLogout = () => {
+    handleLogout();
     navigate("/login");
   };
 
   useEffect(() => {
-    if (!user) {
-      dispatch(loginUser());
-    }
+    if (!user) loadUser();
   });
 
   if (window.innerWidth < mobileWidth) return;
@@ -58,7 +54,7 @@ const Navbar = ({ network }) => {
                 <ChatBtn className="bg-secondary me-3 ms-3" />
                 <RoundedPill
                   className="bg-secondary border me-3 d-flex align-items-center"
-                  onClick={handleLogout}
+                  onClick={handleUserLogout}
                 >
                   <span className="material-symbols-outlined me-1">logout</span>
                   Log out

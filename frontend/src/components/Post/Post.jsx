@@ -13,10 +13,6 @@ const Post = ({ className = "", post, showNetwork = false }) => {
   const postRef = useRef();
   const { user } = useSelector((state) => state.user);
 
-  const showChatDialog = () => {
-    setIsChatShowing(true);
-  };
-
   return (
     <>
       <div
@@ -60,7 +56,6 @@ const Post = ({ className = "", post, showNetwork = false }) => {
               }
             >
               <span className="material-symbols-outlined">chat</span>
-              {console.log(post.Comments)}
               &nbsp; {post.Comments?.length}
             </RoundedPill>
           </div>

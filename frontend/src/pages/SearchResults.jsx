@@ -10,14 +10,14 @@ import SearchBar from "../components/SearchBar";
 import RoundedPill from "../components/RoundedPill";
 import Post from "../components/Post/Post";
 import { useNavigate } from "react-router";
+import usePage from "../hooks/usePage";
 
 const SearchResults = () => {
   const [networks, setNetworks] = useState([]);
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [stopFetchingMorePosts, setStopFetchingMorePosts] = useState(false);
+  const { page, setStopFetching } = usePage();
   const [currentSection, setCurrentSection] = useState("NETWORKS");
-  const [page, setPage] = useState(1);
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const SearchResults = () => {
       `networks/?q=${params.get("q") || ""}&page=${page}`
     );
     if (response.data.length === 0) {
-      setStopFetchingMorePosts(true);
+      setStopFetching(true);
     }
     return response.data;
   };
@@ -36,7 +36,7 @@ const SearchResults = () => {
       `users/find/?q=${params.get("q") || ""}&page=${page}`
     );
     if (response.data.length === 0) {
-      setStopFetchingMorePosts(true);
+      setStopFetching(true);
     }
     console.log(response.data);
     return response.data;
@@ -47,9 +47,8 @@ const SearchResults = () => {
       `posts/?q=${params.get("q") || ""}&page=${page}`
     );
     if (response.data.length === 0) {
-      setStopFetchingMorePosts(true);
+      setStopFetching(true);
     }
-    console.log(response.data);
     return response.data;
   };
 
@@ -66,30 +65,6 @@ const SearchResults = () => {
       .then((data) => setPosts((prev) => [...prev, ...data]))
       .catch((err) => console.error(err));
   }, [page]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (stopFetchingMorePosts) {
-        return;
-      }
-
-      const { scrollTop, scrollHeight } = document.documentElement;
-      const { innerHeight } = window;
-
-      // Check if scrolled to the bottom
-      if (scrollTop + innerHeight >= scrollHeight) {
-        setPage((prev) => prev + 1);
-      }
-    };
-
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <div>

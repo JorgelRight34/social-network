@@ -1,7 +1,6 @@
 import { useState } from "react";
 import api from "../../api";
 import RoundedPill from "../RoundedPill";
-import { useSelector } from "react-redux";
 
 const LikeBtn = ({ post }) => {
   const [likes, setLikes] = useState(post?.Likes?.length || 0);

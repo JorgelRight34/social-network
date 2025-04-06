@@ -1,21 +1,17 @@
-import api from "../../api";
+import useDeletePost from "../../hooks/useDeletePost";
 import RoundedPill from "../RoundedPill";
 
 const DeletePostBtn = ({ post, postRef }) => {
+  const { deletePost, error } = useDeletePost();
+
   const handleOnClick = async () => {
-    let response;
-
-    if (!confirm("Are you sure you wanna delete this post?")) {
+    if (!confirm("Are you sure you wanna delete this post?")) return;
+    await deletePost(post.id);
+    if (error) {
+      alert("Error deleting post");
       return;
     }
-
-    try {
-      response = await api.delete(`posts/${post.id}`);
-    } catch (err) {
-      console.log(err);
-      return;
-    }
-
+    // Hide the post after deletion
     postRef.current.style.visibility = "hidden";
   };
 

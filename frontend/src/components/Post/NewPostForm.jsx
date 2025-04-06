@@ -1,28 +1,15 @@
-import api from "../../api";
-import { useRef, useState } from "react";
 import ImageInput from "../ImageInput";
 import { Carousel } from "react-bootstrap";
+import useCreatePost from "../../hooks/useCreatePost";
 
 const NewPostForm = ({ network, callback, setPosts }) => {
-  const formRef = useRef();
-  const [files, setFiles] = useState({});
+  const { formRef, onSubmit, files, setFiles } = useCreatePost();
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(formRef.current);
-    let response;
-
-    Object.keys(files).forEach((key) => data.append("files", files[key]));
-
-    try {
-      response = await api.post("http://localhost:3000/posts/", data);
-    } catch (err) {
-      console.log(err);
-      return;
-    }
-
+    const newPost = await onSubmit();
     callback();
-    setPosts((prev) => [response.data, ...prev]);
+    setPosts((prev) => [newPost, ...prev]);
     formRef.current.reset(); // Reset form
     window.location.reload();
   };

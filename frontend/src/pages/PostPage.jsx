@@ -3,15 +3,12 @@ import CustomCarousel from "../components/CustomCarousel";
 import Navbar from "../components/Navbar";
 import PostChat from "../components/Post/PostChat";
 import Username from "../components/Username";
-import { useEffect } from "react";
 import { getPost } from "../lib/utility-functions";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../actions/user";
 import { mobileWidth } from "../lib/constants";
 import NavbarSM from "../components/NavbarSM";
 import { formatDistanceToNow } from "date-fns";
 
-const PostPage = ({}) => {
+const PostPage = () => {
   const location = useLocation();
   const params = useParams();
   const { post } = location.state || getPost(params.post);

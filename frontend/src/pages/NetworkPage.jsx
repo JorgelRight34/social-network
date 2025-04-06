@@ -9,35 +9,26 @@ import Layout from "../components/Layout";
 import usePage from "../hooks/usePage";
 import JoinNetwork from "../components/Network/JoinNetwork";
 import ManageJoinRequestsBtn from "../components/Network/ManageJoinRequestsBtn";
+import usePosts from "../hooks/usePosts";
 
-const NetworkPage = ({}) => {
+const NetworkPage = () => {
   const [network, setNetwork] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [page, , stopFetchingMorePosts, setStopFetchingMorePosts] = usePage();
-  const [posts, setPosts] = useState([]);
+  const { page, stopFetching, setStopFetching } = usePage();
+  const { posts, getPosts } = usePosts();
   const params = useParams();
   const { networkName } = params;
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const getPosts = async () => {
-      let response;
-      try {
-        response = await api.get(`posts/${networkName}/?page=${page}`);
-        if (response.data.length === 0) {
-          setStopFetchingMorePosts(true);
-          return;
-        }
-      } catch (err) {
-        console.log(err);
-        return;
+    if (!stopFetching) {
+      // If hasn't reached a page with no new posts then try
+      // to fetch again new posts
+      const responseLength = getPosts();
+      if (responseLength == 0) {
+        // If no new posts then stop fetching
+        setStopFetching(true);
       }
-
-      setPosts((prev) => [...prev, ...response.data]);
-    };
-
-    if (!stopFetchingMorePosts) {
-      getPosts();
     }
   }, [page]);
 

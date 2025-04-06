@@ -28,7 +28,7 @@ const usePage = () => {
     };
   });
 
-  return [page, setPage, stopFetching, setStopFetching];
+  return { page, setPage, stopFetching, setStopFetching };
 };
 
 export default usePage;
